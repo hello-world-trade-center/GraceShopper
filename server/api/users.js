@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const {User} = require('../db/models')
-module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
@@ -15,3 +14,38 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+
+router.get('/userId', async (req, res, next) => {
+  try {
+    const id = req.params.userId
+    const specificUser = await User.findById(id)
+    if (specificUser) {
+      res.json(specificUser)
+    } else {
+      res.status(404).send('User does not exist')
+    }
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.post('/', async (req, res, next) => {
+  try {
+    const newUser = await User.create(req.body)
+    res.json(newUser)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.delete('/:userId', async (req, res, next) => {
+  try {
+    const specificUser = await User.findById(req.params.userId)
+    const deletedUser = await specificUser.destroy()
+    res.json(deletedUser)
+  } catch (error) {
+    next(error)
+  }
+})
+
+module.exports = router
