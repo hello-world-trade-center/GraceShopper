@@ -13,14 +13,14 @@ describe('User routes', () => {
 
   describe('/api/users/', () => {
     const codysEmail = 'cody@puppybook.com'
+    const jonsEmail = 'jon@puppybook.com'
 
     beforeEach(() => {
       return User.create({
         name: 'Cody',
         id: 1,
         email: codysEmail,
-        password: '1234',
-        boughtItems: []
+        password: '1234'
       })
     })
 
@@ -47,7 +47,8 @@ describe('User routes', () => {
         .post('/api/users')
         .send({
           name: 'Jon',
-          email: 'jon@email.com',
+          id: 2,
+          email: jonsEmail,
           password: '1234'
         })
         .expect(200)
