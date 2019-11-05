@@ -1,18 +1,37 @@
 import axios from 'axios'
 
 //ACTION TYPES
-const BUY_PRODUCT = 'BUY_PRODUCT'
+const GOT_PRODUCTS = 'GOT_PRODUCTS'
 
 //ACTION CREATORS
-const buyProduct = product => ({type: BUY_PRODUCT, product})
+export function gotProducts(products) {
+  return {
+    type: GOT_PRODUCTS,
+    products
+  }
+}
 
 //THUNK CREATORS
-// export const boughtProduct = (product) => {
-//     return async (dispatch) => {
-//         try{
-//             const {data} = await axios.get(`/api/${product.id}`)
-//         } catch(err) {
-//             console.error(err)
-//         }
-//     }
-// }
+export function getProducts(product) {
+  return async dispatch => {
+    try {
+      const {data} = await axios.get(`/api/products`)
+      dispatch(gotProducts(data))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+}
+
+const productState = []
+
+const productReducer = (state = productState, action) => {
+  switch (action.type) {
+    case GOT_PRODUCTS:
+      return [...state, action.products]
+    default:
+      return state
+  }
+}
+
+export default productReducer
