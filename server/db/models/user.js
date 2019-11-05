@@ -43,9 +43,6 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING
-  },
-  boughtItems: {
-    type: Sequelize.ARRAY
   }
 })
 
