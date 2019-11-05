@@ -1,7 +1,9 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 
 const products = [
   {
+    id: 1,
     name: 'Vitelotte',
     price: '199.99',
     description:
@@ -12,6 +14,7 @@ const products = [
       'http://cdn.webshopapp.com/shops/145216/files/240944855/potatoes-vitelotte-purple-per-100-gram.jpg'
   },
   {
+    id: 2,
     name: 'Belle de Fontenay',
     price: '89.97',
     description:
@@ -27,9 +30,12 @@ const allProducts = () => {
     <div>
       {products.map(product => {
         return (
-          <div className="product">
+          <div key={product.id} className="product">
             <img src={product.imageUrl} />
-            <h3>{product.name}</h3>
+            <Link to={`/products/${product.id}`}>
+              <h3>{product.name}</h3>
+            </Link>
+
             <p>{product.origin}</p>
             <p>{product.price}</p>
           </div>
