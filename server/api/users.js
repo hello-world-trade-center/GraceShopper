@@ -15,10 +15,10 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/userId', async (req, res, next) => {
+router.get('/:userId', async (req, res, next) => {
   try {
     const id = req.params.userId
-    const specificUser = await User.findById(id)
+    const specificUser = await User.findByPk(id)
     if (specificUser) {
       res.json(specificUser)
     } else {
@@ -29,10 +29,14 @@ router.get('/userId', async (req, res, next) => {
   }
 })
 
-router.post('/userId', async (req, res, next) => {
+router.post('/:userId', async (req, res, next) => {
   try {
-    const user = await User.findById(id)
-    user.boughtItems.push(req.body)
+    const user = await User.findByPk(req.params.userId)
+    console.log('reqbody>>>>', req.body)
+    for (let i = 0; i < req.body.length; i++) {
+      user.boughtItems.push(req.body[i])
+    }
+    console.log('boughtitems>>>', user.boughtItems)
     res.json(user)
   } catch (error) {
     console.error(error)
@@ -50,9 +54,9 @@ router.post('/', async (req, res, next) => {
 
 router.delete('/:userId', async (req, res, next) => {
   try {
-    const specificUser = await User.findById(req.params.userId)
+    const specificUser = await User.findByPk(req.params.userId)
     const deletedUser = await specificUser.destroy()
-    res.json(deletedUser)
+    res.status(204).json(deletedUser)
   } catch (error) {
     next(error)
   }
