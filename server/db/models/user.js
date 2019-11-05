@@ -7,6 +7,15 @@ const User = db.define('user', {
     type: Sequelize.STRING,
     allowNull: false
   },
+  address: {
+    type: Sequelize.STRING
+  },
+  city: {
+    type: Sequelize.STRING
+  },
+  zipCode: {
+    type: Sequelize.STRING
+  },
   email: {
     type: Sequelize.STRING,
     unique: true,
@@ -34,6 +43,9 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING
+  },
+  boughtItems: {
+    type: Sequelize.ARRAY
   }
 })
 

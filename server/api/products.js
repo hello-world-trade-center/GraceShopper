@@ -24,6 +24,16 @@ router.get('/:productId', async (req, res, next) => {
   }
 })
 
+router.post('/:productId', async (req, res, next) => {
+  try {
+    const product = await Product.findById(req.params.productId)
+    product.inventory -= 1
+    res.json(product)
+  } catch (error) {
+    console.error(error)
+  }
+})
+
 router.post('/', async (req, res, next) => {
   try {
     const newProduct = await Product.create(req.body)
