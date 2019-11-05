@@ -26,12 +26,12 @@ const Product = db.define('product', {
     validate: {
       min: 0,
       max: 5
-    },
-    imageUrl: {
-      type: Sequelize.STRING,
-      defaultValue:
-        'https://assets.shop.loblaws.ca/products_jpeg/20106716001/en/20106716001_lrg_1_@1x.jpg'
     }
+  },
+  imageUrl: {
+    type: Sequelize.STRING,
+    defaultValue:
+      'https://assets.shop.loblaws.ca/products_jpeg/20106716001/en/20106716001_lrg_1_@1x.jpg'
   }
 })
 
