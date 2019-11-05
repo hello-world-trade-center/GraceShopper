@@ -13,7 +13,7 @@ router.get('/', async (req, res, next) => {
 router.get('/:productId', async (req, res, next) => {
   try {
     const id = req.params.productId
-    const specificProduct = await Product.findById(id)
+    const specificProduct = await Product.findByPk(id)
     if (specificProduct) {
       res.json(specificProduct)
     } else {
@@ -26,9 +26,9 @@ router.get('/:productId', async (req, res, next) => {
 
 router.post('/:productId', async (req, res, next) => {
   try {
-    const product = await Product.findById(req.params.productId)
-    product.inventory -= 1
-    res.json(product)
+    const product = await Product.findByPk(req.params.productId)
+    product.inventory -= req.body.quantity
+    res.status(201).json(product)
   } catch (error) {
     console.error(error)
   }
@@ -37,7 +37,7 @@ router.post('/:productId', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const newProduct = await Product.create(req.body)
-    res.json(newProduct)
+    res.status(201).json(newProduct)
   } catch (error) {
     next(error)
   }
@@ -45,10 +45,10 @@ router.post('/', async (req, res, next) => {
 
 router.delete('/:productId', async (req, res, next) => {
   try {
-    const specificProduct = await Product.findById(req.params.productId)
+    const specificProduct = await Product.findByPk(req.params.productId)
     const deletedProduct = await specificProduct.destroy()
 
-    res.json(deletedProduct)
+    res.status(204).json(deletedProduct)
   } catch (error) {
     next(error)
   }

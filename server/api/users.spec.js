@@ -32,5 +32,36 @@ describe('User routes', () => {
       expect(res.body).to.be.an('array')
       expect(res.body[0].email).to.be.equal(codysEmail)
     })
+
+    it('Gets a single user', async () => {
+      const res = await request(app)
+        .get('/api/users/1')
+        .expect(200)
+
+      expect(res.body).to.be.an('object')
+      expect(res.body.name).to.be.equal('Cody')
+    })
+
+    it('Creates a new user', async () => {
+      const res = await request(app)
+        .post('/api/users')
+        .send({
+          name: 'Jon',
+          email: 'jon@email.com',
+          password: '1234'
+        })
+        .expect(200)
+      expect(res.body).to.be.an('object')
+      expect(res.body.name).to.be.equal('Jon')
+    })
+
+    it('deletes a user', async () => {
+      const res = await request(app)
+        .delete('/api/users/1')
+        .expect(204)
+
+      const isCodyThere = await User.findByPk(1)
+      expect(isCodyThere).to.equal(null)
+    })
   }) // end describe('/api/users')
 }) // end describe('User routes')

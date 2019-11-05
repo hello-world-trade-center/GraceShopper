@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
+const {User, Order} = require('../db/models')
 
 router.get('/', async (req, res, next) => {
   try {
@@ -15,10 +15,14 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/userId', async (req, res, next) => {
+router.get('/:userId', async (req, res, next) => {
   try {
     const id = req.params.userId
-    const specificUser = await User.findById(id)
+    const specificUser = await User.findByPk(id, {
+      include: {
+        model: Order
+      }
+    })
     if (specificUser) {
       res.json(specificUser)
     } else {
@@ -26,16 +30,6 @@ router.get('/userId', async (req, res, next) => {
     }
   } catch (error) {
     next(error)
-  }
-})
-
-router.post('/userId', async (req, res, next) => {
-  try {
-    const user = await User.findById(id)
-    user.boughtItems.push(req.body)
-    res.json(user)
-  } catch (error) {
-    console.error(error)
   }
 })
 
@@ -50,9 +44,9 @@ router.post('/', async (req, res, next) => {
 
 router.delete('/:userId', async (req, res, next) => {
   try {
-    const specificUser = await User.findById(req.params.userId)
+    const specificUser = await User.findByPk(req.params.userId)
     const deletedUser = await specificUser.destroy()
-    res.json(deletedUser)
+    res.status(204).json(deletedUser)
   } catch (error) {
     next(error)
   }
