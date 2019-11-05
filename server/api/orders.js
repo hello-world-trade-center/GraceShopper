@@ -12,3 +12,5 @@ router.get('/:orderId', async (req, res, next) => {
     console.error(err)
   }
 })
+
+module.exports = router
