@@ -17,6 +17,10 @@ const Product = db.define('product', {
   origin: {
     type: Sequelize.STRING
   },
+  inventory: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
   rating: {
     type: Sequelize.FLOAT,
     validate: {
