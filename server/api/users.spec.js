@@ -18,7 +18,6 @@ describe('User routes', () => {
     beforeEach(() => {
       return User.create({
         name: 'Cody',
-        id: 1,
         email: codysEmail,
         password: '1234'
       })
@@ -47,7 +46,6 @@ describe('User routes', () => {
         .post('/api/users')
         .send({
           name: 'Jon',
-          id: 2,
           email: jonsEmail,
           password: '1234'
         })
