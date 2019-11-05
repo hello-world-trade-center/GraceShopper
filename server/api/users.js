@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
+const {User, Order} = require('../db/models')
 
 router.get('/', async (req, res, next) => {
   try {
@@ -18,7 +18,11 @@ router.get('/', async (req, res, next) => {
 router.get('/:userId', async (req, res, next) => {
   try {
     const id = req.params.userId
-    const specificUser = await User.findByPk(id)
+    const specificUser = await User.findByPk(id, {
+      include: {
+        model: Order
+      }
+    })
     if (specificUser) {
       res.json(specificUser)
     } else {

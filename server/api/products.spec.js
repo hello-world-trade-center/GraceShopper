@@ -45,6 +45,29 @@ describe('Product routes', () => {
       expect(res.body.inventory).to.be.equal(95)
     })
 
-    it('creates a new row for a new potato')
+    it('creates a new potato', async () => {
+      const res = await request(app)
+        .post('/api/products')
+        .send({
+          name: 'potato2',
+          price: 3,
+          description: 'ok potato',
+          origin: 'USA',
+          inventory: 50,
+          rating: 3
+        })
+        .expect(201)
+      expect(res.body.name).to.be.equal('potato2')
+    })
+
+    it('deletes a product', async () => {
+      const res = await request(app)
+        .delete('/api/products/1')
+        .expect(204)
+
+      const isPotato1There = await Product.findByPk(1)
+
+      expect(isPotato1There).to.equal(null)
+    })
   })
 })
