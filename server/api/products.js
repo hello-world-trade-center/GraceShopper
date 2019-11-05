@@ -13,7 +13,7 @@ router.get('/', async (req, res, next) => {
 router.get('/:productId', async (req, res, next) => {
   try {
     const id = req.params.productId
-    const specificProduct = await Product.findById(id)
+    const specificProduct = await Product.findByPk(id)
     if (specificProduct) {
       res.json(specificProduct)
     } else {
@@ -26,9 +26,10 @@ router.get('/:productId', async (req, res, next) => {
 
 router.post('/:productId', async (req, res, next) => {
   try {
-    const product = await Product.findById(req.params.productId)
-    product.inventory -= 1
-    res.json(product)
+    const product = await Product.findByPk(req.params.productId)
+    console.log('req.body.quantity>>>>', req.body)
+    product.inventory -= req.body.quantity
+    res.status(201).json(product)
   } catch (error) {
     console.error(error)
   }

@@ -41,14 +41,17 @@ describe('User routes', () => {
       expect(res.body.name).to.be.equal('Cody')
     })
 
-    it('adds to user items', async () => {
+    it('Creates a new user', async () => {
       const res = await request(app)
-        .post('/api/users/1')
-        .send(['potato2'])
+        .post('/api/users')
+        .send({
+          name: 'Jon',
+          email: 'jon@email.com',
+          password: '1234'
+        })
         .expect(200)
-
-      expect(res.body.boughtItems.includes('potato1')).to.be.equal(true)
-      expect(res.body.boughtItems.includes('potato2')).to.be.equal(true)
+      expect(res.body).to.be.an('object')
+      expect(res.body.name).to.be.equal('Jon')
     })
 
     it('deletes a user', async () => {

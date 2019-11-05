@@ -29,20 +29,6 @@ router.get('/:userId', async (req, res, next) => {
   }
 })
 
-router.post('/:userId', async (req, res, next) => {
-  try {
-    const user = await User.findByPk(req.params.userId)
-    console.log('reqbody>>>>', req.body)
-    for (let i = 0; i < req.body.length; i++) {
-      user.boughtItems.push(req.body[i])
-    }
-    console.log('boughtitems>>>', user.boughtItems)
-    res.json(user)
-  } catch (error) {
-    console.error(error)
-  }
-})
-
 router.post('/', async (req, res, next) => {
   try {
     const newUser = await User.create(req.body)
