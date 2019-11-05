@@ -3,6 +3,7 @@
 const db = require('../server/db')
 const {User, Product} = require('../server/db/models')
 
+//npm run seed
 const products = [
   {
     name: 'Vitelotte',
@@ -25,15 +26,35 @@ const products = [
   }
 ]
 
+const users = [
+  {
+    name: 'Dwayne The Rock Johnson',
+    email: 'therock@wwe.com',
+    password: '1234'
+  },
+  {
+    name: 'Kevin Hart',
+    email: 'dwaynesbestie@funnyman.com',
+    password: '5678'
+  }
+]
+
 async function seed() {
   await db.sync({force: true})
+
+  await Promise.all(
+    products.map(product => {
+      return Product.create(product)
+    })
+  )
+
+  await Promise.all(
+    users.map(user => {
+      return User.create(user)
+    })
+  )
+
   console.log('db synced!')
-
-  const users = await Promise.all([
-    User.create({name: 'Cody', email: 'cody@email.com', password: '123'}),
-    User.create({name: 'murphy', email: 'murphy@email.com', password: '123'})
-  ])
-
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
 }
