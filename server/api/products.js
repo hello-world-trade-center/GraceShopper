@@ -45,15 +45,15 @@ router.get('/:productId', async (req, res, next) => {
 //   }
 // })
 
-router.delete('/:productId', async (req, res, next) => {
-  try {
-    const specificProduct = await Product.findByPk(req.params.productId)
-    const deletedProduct = await specificProduct.destroy()
+// router.delete('/:productId', async (req, res, next) => {
+//   try {
+//     const specificProduct = await Product.findByPk(req.params.productId)
+//     const deletedProduct = await specificProduct.destroy()
 
-    res.status(204).json(deletedProduct)
-  } catch (error) {
-    next(error)
-  }
-})
+//     res.status(204).json(deletedProduct)
+//   } catch (error) {
+//     next(error)
+//   }
+// })
 
 module.exports = router
