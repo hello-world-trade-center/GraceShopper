@@ -24,11 +24,6 @@ const mapStateToProps = state => {
     products: state.products.allProducts
   }
 }
-
-const mapDispatchToProps = dispatch => {
-  return {
-    getProducts: () => dispatch(getProducts())
-  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
