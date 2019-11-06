@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 // import {Login, Signup} from './index'
 
-const Navbar = ({handleClick, isLoggedIn}) => (
+const Navbar = ({handleClick, isLoggedIn, user}) => (
   <div>
     <div className="navbar">
       <h1 id="title">
@@ -15,8 +15,9 @@ const Navbar = ({handleClick, isLoggedIn}) => (
       <SearchBar />
       <nav>
         {isLoggedIn ? (
-          <div>
+          <div className="nav-items">
             {/* The navbar will show these links after you log in */}
+            <p>Welcome {user.name.split(' ')[0]}!</p>
             <a href="#" onClick={handleClick}>
               Logout
             </a>
@@ -41,7 +42,8 @@ const Navbar = ({handleClick, isLoggedIn}) => (
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    user: state.user
   }
 }
 
