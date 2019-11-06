@@ -14,46 +14,46 @@ const AuthForm = props => {
       <form onSubmit={handleSubmit} name={name}>
         <div>
           <label htmlFor="email">
-            <small>Email</small>
+            <small className="form-names">Email</small>
           </label>
-          <input name="email" type="text" />
+          <input className="info-input" name="email" type="text" />
         </div>
 
         <div>
           <label htmlFor="password">
-            <small>Password</small>
+            <small className="form-names">Password</small>
           </label>
-          <input name="password" type="password" />
+          <input className="info-input" name="password" type="password" />
         </div>
 
         {displayName != 'Login' ? (
           <div>
             <div>
               <label htmlFor="name">
-                <small>Name</small>
+                <small className="form-names">Name</small>
               </label>
-              <input name="name" type="text" />
+              <input className="info-input" name="name" type="text" />
             </div>
 
             <div>
               <label htmlFor="Address">
-                <small>Address</small>
+                <small className="form-names">Address</small>
               </label>
-              <input name="Address" type="text" />
+              <input className="info-input" name="Address" type="text" />
             </div>
 
             <div>
               <label htmlFor="City">
-                <small>City</small>
+                <small className="form-names">City</small>
               </label>
-              <input name="City" type="text" />
+              <input className="info-input" name="City" type="text" />
             </div>
 
             <div>
               <label htmlFor="Zip">
-                <small>Zip Code</small>
+                <small className="form-names">Zip Code</small>
               </label>
-              <input name="Zip" type="text" />
+              <input className="info-input" name="Zip" type="text" />
             </div>
           </div>
         ) : null}

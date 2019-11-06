@@ -8,7 +8,6 @@ class SingleProduct extends React.Component {
     super()
     this.state = {
       quantity: 0
-      // show:true
     }
     this.incrementItem = this.incrementItem.bind(this)
     this.decrementItem = this.decrementItem.bind(this)
@@ -46,7 +45,6 @@ class SingleProduct extends React.Component {
   }
 
   render() {
-    console.log(this.state.quantity)
     const potato = this.props.product
     return (
       <div key={potato.id}>
