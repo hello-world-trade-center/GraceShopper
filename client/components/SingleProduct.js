@@ -56,10 +56,11 @@ class SingleProduct extends React.Component {
         <label htmlFor="quantity">{this.state.quantity}</label>
         <button onClick={this.incrementItem}>+</button>
         <button onClick={this.decrementItem}>-</button>
-
-        <button onClick={this.handleSubmit} type="submit">
-          Add To Cart
-        </button>
+        <Link to="/cart">
+          <button onClick={this.handleSubmit} type="submit">
+            Add To Cart
+          </button>
+        </Link>
       </div>
     )
   }
