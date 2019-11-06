@@ -4,11 +4,11 @@ import {connect} from 'react-redux'
 
 const AllProducts = props => {
   return (
-    <div>
+    <div className="allProducts">
       {props.products.map(product => {
         return (
           <div key={product.id} className="product">
-            <img src={product.imageUrl} />
+            <img className="product-img" src={product.imageUrl} />
             <Link to={`/products/${product.id}`}>
               <h3>{product.name}</h3>
             </Link>
