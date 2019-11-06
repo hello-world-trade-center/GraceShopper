@@ -1,17 +1,29 @@
 import React from 'react'
-
-import {Navbar} from './components'
-import {AllProducts} from './components'
 import Routes from './routes'
+import {Navbar} from './components'
+import {connect} from 'react-redux'
+import {getProducts} from './store/product'
 
-const App = () => {
-  return (
-    <div>
-      <Navbar />
-      <AllProducts />
-      <Routes />
-    </div>
-  )
+class App extends React.Component {
+  componentDidMount() {
+    this.props.getProducts()
+  }
+
+  render() {
+    return (
+      <div>
+        <Navbar />
+        <Routes />
+      </div>
+    )
+  }
 }
 
-export default App
+const mapStateToProps = state => {
+  return {
+    products: state.products.allProducts
+  }
+}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
