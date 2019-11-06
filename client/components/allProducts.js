@@ -9,7 +9,6 @@ class AllProducts extends React.Component {
   }
 
   render() {
-    console.log(this.props.products)
     return (
       <div>
         {this.props.products.map(product => {
@@ -19,7 +18,6 @@ class AllProducts extends React.Component {
               <Link to={`/products/${product.id}`}>
                 <h3>{product.name}</h3>
               </Link>
-
               <p>{product.origin}</p>
               <p>{product.price}</p>
             </div>
@@ -32,7 +30,7 @@ class AllProducts extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    products: state.products
+    products: state.products.allProducts
   }
 }
 
