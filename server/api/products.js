@@ -3,7 +3,9 @@ const {Product} = require('../db/models')
 
 router.get('/', async (req, res, next) => {
   try {
-    const products = await Product.findAll()
+    const products = await Product.findAll({
+      attributes: ['id', 'name', 'price', 'origin', 'imageUrl']
+    })
     res.json(products)
   } catch (err) {
     next(err)
@@ -24,24 +26,24 @@ router.get('/:productId', async (req, res, next) => {
   }
 })
 
-router.post('/:productId', async (req, res, next) => {
-  try {
-    const product = await Product.findByPk(req.params.productId)
-    product.inventory -= req.body.quantity
-    res.status(201).json(product)
-  } catch (error) {
-    console.error(error)
-  }
-})
+// router.post('/:productId', async (req, res, next) => {
+//   try {
+//     const product = await Product.findByPk(req.params.productId)
+//     product.inventory -= req.body.quantity
+//     res.status(201).json(product)
+//   } catch (error) {
+//     console.error(error)
+//   }
+// })
 
-router.post('/', async (req, res, next) => {
-  try {
-    const newProduct = await Product.create(req.body)
-    res.status(201).json(newProduct)
-  } catch (error) {
-    next(error)
-  }
-})
+// router.post('/', async (req, res, next) => {
+//   try {
+//     const newProduct = await Product.create(req.body)
+//     res.status(201).json(newProduct)
+//   } catch (error) {
+//     next(error)
+//   }
+// })
 
 router.delete('/:productId', async (req, res, next) => {
   try {
