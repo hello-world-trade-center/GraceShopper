@@ -50,7 +50,7 @@ class SingleProduct extends React.Component {
     const potato = this.props.product
     return (
       <div key={potato.id}>
-        <img src={potato.imageUrl} />
+        <img className="product-img" src={potato.imageUrl} />
         <h3>{potato.name}</h3>
         <p>{potato.origin}</p>
         <p>{potato.description}</p>

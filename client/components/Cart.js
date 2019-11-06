@@ -51,17 +51,19 @@ class Cart extends React.Component {
         <h2>SHOPPING CART</h2>
         <ol>
           {products.map((product, idx) => (
-            <li key={idx}>
-              <img src={product.imageUrl} />
-              <h3>{product.name}</h3>
-              <p>{product.origin}</p>
-              <p>{product.price} USD</p>
-              <div>
-                <button onClick={this.increment}>+</button>
-                <p>{this.state.count}</p>
-                <button onClick={this.decrement}>-</button>
-              </div>
-            </li>
+            <div key={idx} className="product">
+              <li>
+                <img className="product-img" src={product.imageUrl} />
+                <h3>{product.name}</h3>
+                <p>{product.origin}</p>
+                <p>{product.price} USD</p>
+                <div>
+                  <button onClick={this.increment}>+</button>
+                  <p>{this.state.count}</p>
+                  <button onClick={this.decrement}>-</button>
+                </div>
+              </li>
+            </div>
           ))}
         </ol>
       </div>
