@@ -29,7 +29,7 @@ const products = [
       'A beautiful French first-early potato variety firm and waxy in texture. Perfect for Sunday lunches in late spring to early summer.',
     origin: 'Austrian',
     imageUrl:
-      'A golden crescent-shaped fingerling with deep yellow flesh. The waxy and firm texture is delicious for salads or roasting. This variety is also known as Kipfel — German for “croissant” — hence the lovely name “Austrian Crescent.”'
+      'https://smhttp-ssl-17653.nexcesscdn.net/media/catalog/product/cache/1/thumbnail/9df78eab33525d08d6e5fb8d27136e95/f/p/fp838-edit.jpg'
   },
   {
     name: 'Garnét',
@@ -47,6 +47,32 @@ const products = [
     origin: 'Hawaii',
     imageUrl:
       'https://www.friedas.com/wp-content/uploads/2019/05/Friedas_Okinawan-Sweet-Potato.jpg'
+  },
+  {
+    name: "Kerr's Pink",
+    price: '48999',
+    description:
+      'Kerr’s Pink is a potato in wide production in Ireland, often quoted as an “Irish potato” where it was introduced in 1917. A Kerr’s Pink potato is an irregular oval shape with distinctive pink colour and deep eyes. They are quite floury and starchy and are of good eating quality with a high dry matter.',
+    origin: 'Scotland',
+    imageUrl: 'http://www.specialtyproduce.com/sppics/16382.png'
+  },
+  {
+    name: 'Bintje',
+    price: '25599',
+    description:
+      'Bintje is a middle-early ripening potato variety bred in the Netherlands by the Frisian schoolmaster K.L. de Vries in 1904 from and marketed for the first time in 1910. The name of the potato, a diminutive of Benedict, was borrowed from one of his former students.',
+    origin: 'Netherlands',
+    imageUrl:
+      'https://www.kartoffel-mueller.de/images/product_images/original_images/bintje.jpg'
+  },
+  {
+    name: 'Blue Belle',
+    price: '59999',
+    description:
+      'A mid season potato with yellow skin and purple splashes around the eyes and medium yellow flesh. Oval tubers with shallow eyes. Great when roasted, boiled, baked or mashed. Resistant to powdery scab, splitting and silver scurf.',
+    origin: 'Canada',
+    imageUrl:
+      'https://www.legroupeclisson.fr/images/products/1000x750/71110.jpg'
   }
 ]
 
@@ -60,6 +86,21 @@ const users = [
     name: 'Kevin Hart',
     email: 'dwaynesbestie@funnyman.com',
     password: '5678'
+  },
+  {
+    name: 'Ada Lovelace',
+    email: 'alovelace@fullstack.com',
+    password: 'fivehanover'
+  },
+  {
+    name: 'Grace Hopper',
+    email: 'admiral@usnavy.com',
+    password: 'harvardmark'
+  },
+  {
+    name: 'Alan Turing',
+    email: 'aturing@princeton.edu',
+    password: 'turochamp'
   }
 ]
 
