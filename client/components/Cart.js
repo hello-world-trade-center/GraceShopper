@@ -16,11 +16,7 @@ class Cart extends React.Component {
     let potatoArray = []
     for (let i = 1; i <= localStorage.length; i++) {
       let potato = JSON.parse(localStorage.getItem(i))
-
-      // potato.quantity = 1
-      //this will refresh to 1 after every render
       potatoArray.push(potato)
-      console.log('componentdidmount', potato)
     }
     this.setState({
       products: this.state.products.concat(potatoArray)
@@ -50,13 +46,11 @@ class Cart extends React.Component {
   }
 
   decrement(current) {
-    console.log('in increment function', current)
     current.quantity -= 1
     let quantity = JSON.parse(localStorage.getItem(current.id)).quantity
     current.quantity = quantity - 1
     localStorage.setItem(current.id, JSON.stringify(current))
     this.setState({})
-    console.log(localStorage.getItem(current.id))
   }
 
   render() {
