@@ -1,43 +1,27 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import history from '../history'
 import {connect} from 'react-redux'
 import {getProduct} from '../store/product'
+import Axios from 'axios'
 
 class SingleProduct extends React.Component {
   constructor() {
     super()
-    this.state = {
-      quantity: 0
-    }
-    this.incrementItem = this.incrementItem.bind(this)
-    this.decrementItem = this.decrementItem.bind(this)
     this.handleAddToCart = this.handleAddToCart.bind(this)
-    this.customAmount = this.customAmount.bind(this)
   }
 
-  incrementItem() {
-    this.setState({
-      quantity: this.state.quantity + 1
-    })
-  }
-
-  decrementItem() {
-    if (this.state.quantity > 0) {
-      this.setState({
-        quantity: this.state.quantity - 1
-      })
+  async handleAddToCart() {
+    // event.preventDefault()
+    const itemId = this.props.product.id
+    try {
+      const potato = await Axios.get(`/api/products/${itemId}`)
+      potato.data.quantity = 1
+      localStorage.setItem(itemId, JSON.stringify(potato.data))
+      console.log('potato data', potato.data)
+    } catch (error) {
+      console.log(error)
     }
-  }
-
-  handleAddToCart() {
-    // <Link to = {//cart} component = {this.state} />
-  }
-
-  customAmount(event) {
-    event.preventDefault()
-    this.setState({
-      [event.target.name]: event.target.value
-    })
+    history.push('/cart')
   }
 
   componentDidMount() {
@@ -47,17 +31,14 @@ class SingleProduct extends React.Component {
   render() {
     const potato = this.props.product
     return (
-      <div key={potato.id}>
+      <div className="single-product" key={potato.id}>
         <img className="product-img" src={potato.imageUrl} />
         <h3>{potato.name}</h3>
         <p>{potato.origin}</p>
         <p>{potato.description}</p>
         <p>{'$' + potato.price}</p>
-        <label htmlFor="quantity">{this.state.quantity}</label>
-        <button onClick={this.incrementItem}>+</button>
-        <button onClick={this.decrementItem}>-</button>
 
-        <button onClick={this.handleSubmit} type="submit">
+        <button onClick={this.handleAddToCart} type="submit">
           Add To Cart
         </button>
       </div>

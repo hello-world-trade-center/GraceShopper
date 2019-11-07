@@ -26,15 +26,22 @@ router.get('/:productId', async (req, res, next) => {
   }
 })
 
-// router.post('/:productId', async (req, res, next) => {
-//   try {
-//     const product = await Product.findByPk(req.params.productId)
-//     product.inventory -= req.body.quantity
-//     res.status(201).json(product)
-//   } catch (error) {
-//     console.error(error)
-//   }
-// })
+router.post('/:productId', async (req, res, next) => {
+  try {
+    let product = await Product.findByPk(req.params.productId)
+
+    const newInventory = product.inventory - req.body.quantity
+
+    const updatedProduct = await product.update({
+      ...product,
+      inventory: newInventory
+    })
+
+    res.status(201).json(updatedProduct)
+  } catch (error) {
+    console.error(error)
+  }
+})
 
 // router.post('/', async (req, res, next) => {
 //   try {

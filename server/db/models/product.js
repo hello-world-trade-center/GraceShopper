@@ -19,7 +19,7 @@ const Product = db.define('product', {
   },
   quantity: {
     type: Sequelize.INTEGER,
-    defaultValue: 0
+    defaultValue: 112
   },
   imageUrl: {
     type: Sequelize.STRING,
