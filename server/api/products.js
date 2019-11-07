@@ -26,9 +26,16 @@ router.get('/:productId', async (req, res, next) => {
 
 router.post('/:productId', async (req, res, next) => {
   try {
-    const product = await Product.findByPk(req.params.productId)
-    product.inventory -= req.body.quantity
-    res.status(201).json(product)
+    let product = await Product.findByPk(req.params.productId)
+
+    const newInventory = product.inventory - req.body.quantity
+    console.log('in route', product)
+    const updatedProduct = await product.update({
+      ...product,
+      inventory: newInventory
+    })
+    console.log('updatedProduct', updatedProduct)
+    res.status(201).json(updatedProduct)
   } catch (error) {
     console.error(error)
   }

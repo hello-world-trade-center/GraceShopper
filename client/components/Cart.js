@@ -1,72 +1,91 @@
 import React from 'react'
-
-const products = [
-  {
-    name: 'Vitelotte',
-    price: '199.99',
-    description:
-      'Vitelotte, is a gourmet French variety of blue-violet potato. It has been cultivated in France at least since the early 19th century.',
-    origin: 'France',
-    rating: 4.8,
-    imageUrl:
-      'http://cdn.webshopapp.com/shops/145216/files/240944855/potatoes-vitelotte-purple-per-100-gram.jpg'
-  },
-  {
-    name: 'Belle de Fontenay',
-    price: '89.97',
-    description:
-      'A beautiful French first-early potato variety firm and waxy in texture. Perfect for Sunday lunches in late spring to early summer.',
-    origin: 'France',
-    rating: 4.1,
-    imageUrl: 'http://www.doreoc.com/wp-content/uploads/2014/05/charlotte.jpg'
-  }
-]
+import Axios from 'axios'
 
 class Cart extends React.Component {
   constructor() {
     super()
     this.state = {
-      count: 1
+      products: []
     }
+    this.checkout = this.checkout.bind(this)
     this.increment = this.increment.bind(this)
     this.decrement = this.decrement.bind(this)
   }
 
-  increment() {
+  componentDidMount() {
+    let potatoArray = []
+    for (let i = 1; i <= localStorage.length; i++) {
+      let potato = JSON.parse(localStorage.getItem(i))
+
+      // potato.quantity = 1
+      //this will refresh to 1 after every render
+      potatoArray.push(potato)
+      console.log('componentdidmount', potato)
+    }
     this.setState({
-      count: this.state.count + 1
+      products: this.state.products.concat(potatoArray)
     })
   }
 
-  decrement() {
-    if (this.state.count > 0) {
-      this.setState({
-        count: this.state.count - 1
-      })
+  async checkout() {
+    try {
+      for (let i = 0; i < this.state.products.length; i++) {
+        const potatoId = this.state.products[i].id
+        const quantity = JSON.parse(localStorage.getItem(potatoId)).quantity
+        const returnPotato = await Axios.post(`/api/products/${potatoId}`, {
+          quantity
+        })
+      }
+    } catch (error) {
+      console.log(error)
     }
+  }
+
+  increment(current) {
+    current.quantity += 1
+    let quantity = JSON.parse(localStorage.getItem(current.id)).quantity
+    current.quantity = quantity + 1
+    localStorage.setItem(current.id, JSON.stringify(current))
+    this.setState({})
+  }
+
+  decrement(current) {
+    console.log('in increment function', current)
+    current.quantity -= 1
+    let quantity = JSON.parse(localStorage.getItem(current.id)).quantity
+    current.quantity = quantity - 1
+    localStorage.setItem(current.id, JSON.stringify(current))
+    this.setState({})
+    console.log(localStorage.getItem(current.id))
   }
 
   render() {
     return (
       <div>
-        <h2>SHOPPING CART</h2>
-        <ol>
-          {products.map((product, idx) => (
-            <div key={idx} className="product">
-              <li>
-                <img className="product-img" src={product.imageUrl} />
-                <h3>{product.name}</h3>
-                <p>{product.origin}</p>
-                <p>{product.price} USD</p>
-                <div>
-                  <button onClick={this.increment}>+</button>
-                  <p>{this.state.count}</p>
-                  <button onClick={this.decrement}>-</button>
+        {this.state.products.length != 0
+          ? this.state.products.map(current => {
+              return (
+                <div key={current.id}>
+                  <img className="product-img" src={current.imageUrl} />
+                  <h3>{current.name}</h3>
+                  <p>{current.origin}</p>
+                  <p>{current.price} USD</p>
+                  <p>{current.quantity}</p>
+                  <button onClick={event => this.increment(current)}>+</button>
+                  <button
+                    onClick={event => {
+                      this.decrement(current)
+                    }}
+                  >
+                    -
+                  </button>
                 </div>
-              </li>
-            </div>
-          ))}
-        </ol>
+              )
+            })
+          : null}
+        <button onClick={this.checkout} type="checkout">
+          Checkout
+        </button>
       </div>
     )
   }

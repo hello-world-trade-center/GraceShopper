@@ -61,6 +61,17 @@ form div {
   border-radius: 48px;
 }
 
+.single-product p {
+  font-weight: bold;
+  font-size: 20px;
+  background-color: white;
+}
+
+#productLabel {
+  background-color: white;
+  font-weight: bold;
+}
+
 .product {
   display: flex;
   margin: 5px;
