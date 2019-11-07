@@ -34,6 +34,7 @@ const products = [
   {
     name: 'Garnét',
     price: '34999',
+    origin: 'Spain',
     description:
       'The garnet yam, named for its dark reddish-brown skin, is the variety you’re most likely to find in the produce section of the supermarket. It’s actually a sweet potato, and it’s so flavorful that it requires only a little cream and butter, and some tart lime juice.',
     imageUrl:
