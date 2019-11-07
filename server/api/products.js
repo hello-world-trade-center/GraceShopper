@@ -30,11 +30,11 @@ router.post('/:productId', async (req, res, next) => {
   try {
     let product = await Product.findByPk(req.params.productId)
 
-    const newInventory = product.inventory - req.body.quantity
+    const newInventory = product.quantity - req.body.quantity
 
     const updatedProduct = await product.update({
       ...product,
-      inventory: newInventory
+      quantity: newInventory
     })
 
     res.status(201).json(updatedProduct)

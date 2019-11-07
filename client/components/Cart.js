@@ -14,8 +14,9 @@ class Cart extends React.Component {
 
   componentDidMount() {
     let potatoArray = []
-    for (let i = 1; i <= localStorage.length; i++) {
-      let potato = JSON.parse(localStorage.getItem(i))
+    let keys = Object.keys(localStorage)
+    for (let i = 0; i < keys.length; i++) {
+      let potato = JSON.parse(localStorage.getItem(keys[i]))
       potatoArray.push(potato)
     }
     this.setState({
@@ -46,11 +47,13 @@ class Cart extends React.Component {
   }
 
   decrement(current) {
-    current.quantity -= 1
-    let quantity = JSON.parse(localStorage.getItem(current.id)).quantity
-    current.quantity = quantity - 1
-    localStorage.setItem(current.id, JSON.stringify(current))
-    this.setState({})
+    if (current.quantity > 0) {
+      current.quantity -= 1
+      let quantity = JSON.parse(localStorage.getItem(current.id)).quantity
+      current.quantity = quantity - 1
+      localStorage.setItem(current.id, JSON.stringify(current))
+      this.setState({})
+    }
   }
 
   render() {
