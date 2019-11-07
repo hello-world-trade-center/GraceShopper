@@ -7,7 +7,7 @@ const {User, Product} = require('../server/db/models')
 const products = [
   {
     name: 'Vitelotte',
-    price: '199.99',
+    price: '19999',
     description:
       'Vitelotte, is a gourmet French variety of blue-violet potato. It has been cultivated in France at least since the early 19th century.',
     origin: 'France',
@@ -17,7 +17,7 @@ const products = [
   },
   {
     name: 'Belle de Fontenay',
-    price: '89.97',
+    price: '8997',
     description:
       'A beautiful French first-early potato variety firm and waxy in texture. Perfect for Sunday lunches in late spring to early summer.',
     origin: 'France',
