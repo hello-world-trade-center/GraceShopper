@@ -97,6 +97,8 @@ form div {
 
 .allProducts {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 .full-search {
