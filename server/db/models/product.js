@@ -7,7 +7,7 @@ const Product = db.define('product', {
     allowNull: false
   },
   price: {
-    type: Sequelize.FLOAT,
+    type: Sequelize.INTEGER,
     allowNull: false
   },
   description: {
@@ -17,7 +17,7 @@ const Product = db.define('product', {
   origin: {
     type: Sequelize.STRING
   },
-  inventory: {
+  quantity: {
     type: Sequelize.INTEGER,
     defaultValue: 112
   },

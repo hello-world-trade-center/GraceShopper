@@ -3,7 +3,9 @@ const {Product} = require('../db/models')
 
 router.get('/', async (req, res, next) => {
   try {
-    const products = await Product.findAll()
+    const products = await Product.findAll({
+      attributes: ['id', 'name', 'description', 'price', 'origin', 'imageUrl']
+    })
     res.json(products)
   } catch (err) {
     next(err)
@@ -41,24 +43,24 @@ router.post('/:productId', async (req, res, next) => {
   }
 })
 
-router.post('/', async (req, res, next) => {
-  try {
-    const newProduct = await Product.create(req.body)
-    res.status(201).json(newProduct)
-  } catch (error) {
-    next(error)
-  }
-})
+// router.post('/', async (req, res, next) => {
+//   try {
+//     const newProduct = await Product.create(req.body)
+//     res.status(201).json(newProduct)
+//   } catch (error) {
+//     next(error)
+//   }
+// })
 
-router.delete('/:productId', async (req, res, next) => {
-  try {
-    const specificProduct = await Product.findByPk(req.params.productId)
-    const deletedProduct = await specificProduct.destroy()
+// router.delete('/:productId', async (req, res, next) => {
+//   try {
+//     const specificProduct = await Product.findByPk(req.params.productId)
+//     const deletedProduct = await specificProduct.destroy()
 
-    res.status(204).json(deletedProduct)
-  } catch (error) {
-    next(error)
-  }
-})
+//     res.status(204).json(deletedProduct)
+//   } catch (error) {
+//     next(error)
+//   }
+// })
 
 module.exports = router
