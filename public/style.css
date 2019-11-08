@@ -102,9 +102,7 @@ form div {
 
 .product p {
   margin: 2px;
-  background: rgba(156, 131, 64, 0.5);
   font-weight: bold;
-  border-radius: 5px;
 }
 
 .allProducts {
