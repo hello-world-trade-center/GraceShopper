@@ -11,13 +11,11 @@ class SingleProduct extends React.Component {
   }
 
   async handleAddToCart() {
-    // event.preventDefault()
     const itemId = this.props.product.id
     try {
       const potato = await Axios.get(`/api/products/${itemId}`)
       potato.data.quantity = 1
       localStorage.setItem(itemId, JSON.stringify(potato.data))
-      console.log('potato data', potato.data)
     } catch (error) {
       console.log(error)
     }
