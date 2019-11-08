@@ -58,11 +58,11 @@ class Cart extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="cart-component-container">
         {this.state.products.length != 0
           ? this.state.products.map(current => {
               return (
-                <div className="allProducts" key={current.id}>
+                <div className="single-product" key={current.id}>
                   <img className="cart-product-img" src={current.imageUrl} />
                   <h3>{current.name}</h3>
                   <p>{current.origin}</p>
