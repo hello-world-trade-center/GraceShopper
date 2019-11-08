@@ -20,6 +20,7 @@ router.post('/', async (req, res, next) => {
         model: Product
       }
     })
+    res.status(201).send(newOrder)
   } catch (err) {
     next(err)
   }
@@ -32,6 +33,7 @@ router.post('/:orderId', async (req, res, next) => {
       ...order,
       complete: true
     })
+    res.send(updatedOrder)
   } catch (error) {
     next(error)
   }
