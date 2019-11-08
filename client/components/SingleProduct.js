@@ -39,10 +39,13 @@ class SingleProduct extends React.Component {
           <p>{potato.origin}</p>
           <p>{potato.description}</p>
           <p>{potato.price / 100} USD</p>
-
-          <button onClick={this.handleAddToCart} type="submit">
-            Add To Cart
-          </button>
+          {potato.quantity > 0 ? (
+            <button onClick={this.handleAddToCart} type="submit">
+              Add To Cart
+            </button>
+          ) : (
+            <h3>Sold Out</h3>
+          )}
         </div>
       </div>
     )
