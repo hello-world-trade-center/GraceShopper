@@ -13,7 +13,7 @@ const AllProducts = props => {
               <h3>{product.name}</h3>
             </Link>
             <p>{product.origin}</p>
-            <p>{product.price}</p>
+            <p>{product.price / 100}</p>
           </div>
         )
       })}

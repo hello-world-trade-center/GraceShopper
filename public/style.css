@@ -1,6 +1,8 @@
 body {
   font-family: sans-serif;
   background-image: url('https://cdn-image.travelandleisure.com/sites/default/files/styles/1600x1000/public/1486068323/peybonne-homme-les-tours-BORDEAUX0317.jpg?itok=13VjR77M');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   /* background: linear-gradient(#e4d8b3, #ceac3e); */
 }
 
@@ -14,6 +16,11 @@ button:focus {
 
 a {
   text-decoration: none;
+  color: black;
+}
+
+h1 {
+  font-size: 50px;
 }
 
 label {
@@ -47,6 +54,7 @@ nav a {
 
 #title {
   margin-right: 40px;
+  font-family: cursive;
 }
 
 form div {
@@ -63,10 +71,13 @@ form div {
   border-radius: 48px;
 }
 
-.single-product p {
-  font-weight: bold;
-  font-size: 20px;
-  background-color: white;
+.cart-product-img {
+  height: 100px;
+  width: 100px;
+  border-color: rgba(114, 107, 107, 0.533);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 20px;
 }
 
 #productLabel {
@@ -80,7 +91,6 @@ form div {
   flex-direction: column;
   align-items: center;
   font-size: 20px;
-  background-color: ;
 }
 
 .product h3 {
@@ -103,6 +113,33 @@ form div {
 
 .full-search {
   width: 800px;
+}
+
+.button {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+}
+
+.single-product-page {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+}
+
+.single-product-page-info {
+  padding-top: 20px;
+  padding-right: 50px;
+  padding-bottom: 20px;
+  padding-left: 50px;
+}
+
+.checkout-button {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 #search-button {
