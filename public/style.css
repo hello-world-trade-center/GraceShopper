@@ -149,6 +149,13 @@ form div {
   width: 100%;
 }
 
+.attributes {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
 .single-product-page-info {
   padding-top: 20px;
   padding-right: 50px;
@@ -160,9 +167,15 @@ form div {
 
 .checkout-button {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  flex-direction: row;
   justify-content: flex-end;
+  /* align-items: space-around; */
 }
+
+/* .checkout-button-container > h3 {
+  padding: 10px;
+} */
 
 #search-button {
   display: inline-block;

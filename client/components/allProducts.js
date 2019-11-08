@@ -8,8 +8,8 @@ const AllProducts = props => {
       {props.products.map(product => {
         return (
           <div key={product.id} className="product">
-            <img className="product-img" src={product.imageUrl} />
             <Link to={`/products/${product.id}`}>
+              <img className="product-img" src={product.imageUrl} />
               <h3>{product.name}</h3>
             </Link>
             <p>{product.origin}</p>

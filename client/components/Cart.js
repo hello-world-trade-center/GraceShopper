@@ -12,6 +12,8 @@ class Cart extends React.Component {
     this.increment = this.increment.bind(this)
     this.decrement = this.decrement.bind(this)
     this.remove = this.remove.bind(this)
+    this.total = this.total.bind(this)
+    this.totalItems = this.totalItems.bind(this)
   }
 
   componentDidMount() {
@@ -49,7 +51,7 @@ class Cart extends React.Component {
   }
 
   decrement(current) {
-    if (current.quantity > 0) {
+    if (current.quantity > 1) {
       current.quantity -= 1
       let quantity = JSON.parse(localStorage.getItem(current.id)).quantity
       current.quantity = quantity - 1
@@ -65,13 +67,36 @@ class Cart extends React.Component {
     })
     this.setState({products: copyArray})
     localStorage.removeItem(id)
-
-    console.log('copyArray', copyArray)
+  }
+  total() {
+    let total = 0
+    for (let i = 0; i < this.state.products.length; i++) {
+      let currentProduct = this.state.products[i].price
+      total += currentProduct
+    }
+    return total
+  }
+  totalItems() {
+    let total = 0
+    for (let i = 0; i < this.state.products.length; i++) {
+      let currentProduct = this.state.products[i].quantity
+      total += currentProduct
+    }
+    return total
   }
 
   render() {
     return (
       <div className="cart-component-container">
+        <div className="attributes">
+          {/* best that we can do*/}
+          <h4>Shopping Cart</h4>
+          <h3>Name</h3>
+          <h3>Origin</h3>
+          <h3>Price</h3>
+          <h3>Quantity</h3>
+          <div />
+        </div>
         {this.state.products.length !== 0 ? (
           this.state.products.map(current => {
             return (
@@ -110,10 +135,14 @@ class Cart extends React.Component {
             <p>Cart is Empty</p>
           </div>
         )}
-        <div className="checkout-button">
-          <button type="submit" onClick={this.checkout}>
-            Checkout
-          </button>
+        <div className="checkout-button-container">
+          <div className="checkout-button">
+            <h3>TOTAL ITEMS: {this.totalItems()} </h3>
+            <h3>TOTAL: {this.total() / 100} USD </h3>
+            <button type="submit" onClick={this.checkout}>
+              Checkout
+            </button>
+          </div>
         </div>
       </div>
     )
