@@ -31,16 +31,21 @@ class SingleProduct extends React.Component {
   render() {
     const potato = this.props.product
     return (
-      <div className="single-product" key={potato.id}>
-        <img className="product-img" src={potato.imageUrl} />
-        <h3>{potato.name}</h3>
-        <p>{potato.origin}</p>
-        <p>{potato.description}</p>
-        <p>{'$' + potato.price}</p>
+      <div className="single-product-page">
+        <div key={potato.id}>
+          <img className="product-img" src={potato.imageUrl} />
+        </div>
 
-        <button onClick={this.handleAddToCart} type="submit">
-          Add To Cart
-        </button>
+        <div className="single-product-page-info">
+          <h3>{potato.name}</h3>
+          <p>{potato.origin}</p>
+          <p>{potato.description}</p>
+          <p>{potato.price / 100} USD</p>
+
+          <button onClick={this.handleAddToCart} type="submit">
+            Add To Cart
+          </button>
+        </div>
       </div>
     )
   }

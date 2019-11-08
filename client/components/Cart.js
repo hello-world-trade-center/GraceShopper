@@ -62,27 +62,33 @@ class Cart extends React.Component {
         {this.state.products.length != 0
           ? this.state.products.map(current => {
               return (
-                <div key={current.id}>
-                  <img className="product-img" src={current.imageUrl} />
+                <div className="allProducts" key={current.id}>
+                  <img className="cart-product-img" src={current.imageUrl} />
                   <h3>{current.name}</h3>
                   <p>{current.origin}</p>
-                  <p>{current.price} USD</p>
+                  <p>{current.price / 100} USD</p>
                   <p>{current.quantity}</p>
-                  <button onClick={event => this.increment(current)}>+</button>
-                  <button
-                    onClick={event => {
-                      this.decrement(current)
-                    }}
-                  >
-                    -
-                  </button>
+                  <div className="button">
+                    <button onClick={event => this.increment(current)}>
+                      +
+                    </button>
+                    <button
+                      onClick={event => {
+                        this.decrement(current)
+                      }}
+                    >
+                      -
+                    </button>
+                  </div>
                 </div>
               )
             })
           : null}
-        <button onClick={this.checkout} type="checkout">
-          Checkout
-        </button>
+        <div className="checkout-button">
+          <button onClick={this.checkout} type="checkout">
+            Checkout
+          </button>
+        </div>
       </div>
     )
   }
