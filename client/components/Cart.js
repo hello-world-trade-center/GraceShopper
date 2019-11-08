@@ -42,12 +42,19 @@ class Cart extends React.Component {
     }
   }
 
-  increment(current) {
-    current.quantity += 1
-    let quantity = JSON.parse(localStorage.getItem(current.id)).quantity
-    current.quantity = quantity + 1
-    localStorage.setItem(current.id, JSON.stringify(current))
-    this.setState({})
+  async increment(current) {
+    try {
+      let specificPotato = await Axios.get(`/api/products/${current.id}`)
+      if (current.quantity < specificPotato.data.quantity) {
+        current.quantity += 1
+        let quantity = JSON.parse(localStorage.getItem(current.id)).quantity
+        current.quantity = quantity + 1
+        localStorage.setItem(current.id, JSON.stringify(current))
+        this.setState({})
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   decrement(current) {
@@ -72,6 +79,7 @@ class Cart extends React.Component {
     let total = 0
     for (let i = 0; i < this.state.products.length; i++) {
       let currentProduct = this.state.products[i].price
+      currentProduct = currentProduct * this.state.products[i].quantity
       total += currentProduct
     }
     return total
@@ -110,6 +118,7 @@ class Cart extends React.Component {
                 <p>{current.origin}</p>
                 <p>{current.price / 100} USD</p>
                 <p>{current.quantity}</p>
+
                 <div className="button">
                   <button type="submit" onClick={() => this.increment(current)}>
                     +
