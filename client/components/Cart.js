@@ -1,5 +1,6 @@
 import React from 'react'
 import Axios from 'axios'
+import {Link} from 'react-router-dom'
 
 class Cart extends React.Component {
   constructor() {
@@ -10,6 +11,7 @@ class Cart extends React.Component {
     this.checkout = this.checkout.bind(this)
     this.increment = this.increment.bind(this)
     this.decrement = this.decrement.bind(this)
+    this.remove = this.remove.bind(this)
   }
 
   componentDidMount() {
@@ -55,37 +57,61 @@ class Cart extends React.Component {
       this.setState({})
     }
   }
+  remove(id) {
+    let copyArray = this.state.products.filter(current => {
+      if (current.id !== id) {
+        return current
+      }
+    })
+    this.setState({products: copyArray})
+    localStorage.removeItem(id)
+
+    console.log('copyArray', copyArray)
+  }
 
   render() {
     return (
       <div className="cart-component-container">
-        {this.state.products.length != 0
-          ? this.state.products.map(current => {
-              return (
-                <div className="single-product" key={current.id}>
+        {this.state.products.length !== 0 ? (
+          this.state.products.map(current => {
+            return (
+              <div className="single-product" key={current.id}>
+                <Link to={`/products/${current.id}`}>
                   <img className="cart-product-img" src={current.imageUrl} />
+                </Link>
+                <Link to={`/products/${current.id}`}>
                   <h3>{current.name}</h3>
-                  <p>{current.origin}</p>
-                  <p>{current.price / 100} USD</p>
-                  <p>{current.quantity}</p>
-                  <div className="button">
-                    <button onClick={event => this.increment(current)}>
-                      +
-                    </button>
-                    <button
-                      onClick={event => {
-                        this.decrement(current)
-                      }}
-                    >
-                      -
-                    </button>
-                  </div>
+                </Link>
+                <p>{current.origin}</p>
+                <p>{current.price / 100} USD</p>
+                <p>{current.quantity}</p>
+                <div className="button">
+                  <button type="submit" onClick={() => this.increment(current)}>
+                    +
+                  </button>
+                  <button
+                    type="submit"
+                    onClick={() => {
+                      this.decrement(current)
+                    }}
+                  >
+                    -
+                  </button>
+
+                  <button type="submit" onClick={() => this.remove(current.id)}>
+                    Remove Item
+                  </button>
                 </div>
-              )
-            })
-          : null}
+              </div>
+            )
+          })
+        ) : (
+          <div id="empty-cart">
+            <p>Cart is Empty</p>
+          </div>
+        )}
         <div className="checkout-button">
-          <button onClick={this.checkout} type="checkout">
+          <button type="submit" onClick={this.checkout}>
             Checkout
           </button>
         </div>
