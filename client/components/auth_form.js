@@ -32,7 +32,7 @@ const AuthForm = props => {
               <label htmlFor="name">
                 <small className="form-names">Name</small>
               </label>
-              <input className="info-input" name="name" type="text" />
+              <input className="info-input" name="full_name" type="text" />
             </div>
 
             <div>
@@ -96,9 +96,19 @@ const mapDispatch = dispatch => {
     handleSubmit(evt) {
       evt.preventDefault()
       const formName = evt.target.name
-      const email = evt.target.email.value
-      const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
+      if (formName === 'login') {
+        const email = evt.target.email.value
+        const password = evt.target.password.value
+        dispatch(auth(email, password, formName))
+      } else if (formName === 'signup') {
+        const email = evt.target.email.value
+        const password = evt.target.password.value
+        const name = evt.target.full_name.value
+        const addy = evt.target.Address.value
+        const city = evt.target.City.value
+        const zip = evt.target.Zip.value
+        dispatch(auth(email, password, formName, name, addy, city, zip))
+      }
     }
   }
 }
