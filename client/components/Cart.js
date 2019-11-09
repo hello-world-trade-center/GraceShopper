@@ -28,15 +28,17 @@ class Cart extends React.Component {
 
     //If user signed in
     if (this.props.user.id) {
-      const orders = this.props.user.orders
+      const userOrders = this.props.user.orders
       let order
       //find current order in the database
-      for (let i = 0; i < orders.length; i++) {
-        if (orders[i].complete === false) {
-          const currentOrder = orders[i]
+      for (let i = 0; i < userOrders.length; i++) {
+        if (userOrders[i].complete === false) {
+          const currentOrder = userOrders[i]
+          console.log('should be false', currentOrder)
           order = await Axios.post(`/api/orders/${currentOrder.id}`, {
             products: potatoArray
           })
+          console.log('from axios call', order)
         }
       }
 
@@ -117,7 +119,7 @@ class Cart extends React.Component {
   }
 
   render() {
-    console.log('this.state', this.state)
+    console.log('in render', this.props.user)
     return (
       <div className="cart-component-container">
         <div className="attributes">
