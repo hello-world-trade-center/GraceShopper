@@ -13,22 +13,19 @@ router.get('/:orderId', async (req, res, next) => {
 })
 
 router.post('/:orderId', async (req, res, next) => {
-  // console.log(req.body)
   try {
     const order = await Order.findByPk(req.params.orderId, {
       include: {
         model: Product
       }
     })
-
     const newProducts = []
     for (let i = 0; i < req.body.products.length; i++) {
-      newProducts.push(req.body.products[i])
+      const product = req.body.products[i]
+      product.orderId = order.id
+      newProducts.push(product)
     }
-
     const updatedOrder = await order.update({...order, products: newProducts})
-    // order.products.push(req.body.products)
-    // console.log('orders in route', order)
     res.status(201).send(updatedOrder)
   } catch (err) {
     next(err)
@@ -52,8 +49,7 @@ router.post('/:orderId', async (req, res, next) => {
   try {
     const order = await Order.findByPk(req.params.id)
     const updatedOrder = await order.update({
-      ...order,
-      complete: true
+      ...order
     })
     res.send(updatedOrder)
   } catch (error) {

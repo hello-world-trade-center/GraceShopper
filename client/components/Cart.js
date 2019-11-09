@@ -21,16 +21,17 @@ class Cart extends React.Component {
   }
 
   async componentDidMount() {
-    console.log(this.props.user)
     let potatoArray = []
     let keys = Object.keys(localStorage)
     for (let i = 0; i < keys.length; i++) {
       let potato = JSON.parse(localStorage.getItem(keys[i]))
       potatoArray.push(potato)
     }
+    //If user signed in
     if (this.props.user.id) {
       const orders = this.props.user.orders
       let order
+      //find current order in the database
       for (let i = 0; i < orders.length; i++) {
         if (orders[i].complete === false) {
           const currentOrder = orders[i]
@@ -43,6 +44,7 @@ class Cart extends React.Component {
         products: order.data.products
       })
     } else {
+      //if no user is signed in make the local storage state
       this.setState({
         products: this.state.products.concat(potatoArray)
       })

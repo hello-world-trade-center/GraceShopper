@@ -1,13 +1,18 @@
 const router = require('express').Router()
 const User = require('../db/models/user')
-const {Order} = require('../db/models')
+const {Order, Product} = require('../db/models')
 module.exports = router
 
 router.post('/login', async (req, res, next) => {
   try {
     const user = await User.findOne({
       where: {email: req.body.email},
-      include: {model: Order}
+      include: [
+        {
+          model: Order,
+          include: [{model: Product}]
+        }
+      ]
     })
     if (!user) {
       console.log('No such user found:', req.body.email)
@@ -24,11 +29,14 @@ router.post('/login', async (req, res, next) => {
 })
 
 router.post('/signup', async (req, res, next) => {
-  console.log('here route')
-
   try {
     const user = await User.create(req.body)
-    console.log('user', user)
+    const Order = await Order.create({
+      include: {
+        model: Product
+      }
+    })
+
     req.login(user, err => (err ? next(err) : res.json(user)))
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
@@ -45,8 +53,20 @@ router.post('/logout', (req, res) => {
   res.redirect('/')
 })
 
-router.get('/me', (req, res) => {
-  res.json(req.user)
+router.get('/me', async (req, res) => {
+  if (!req.user) {
+    res.json(req.user)
+  } else {
+    const user = await User.findByPk(req.user.id, {
+      include: [
+        {
+          model: Order,
+          include: [{model: Product}]
+        }
+      ]
+    })
+    res.json(user)
+  }
 })
 
 router.use('/google', require('./google'))
