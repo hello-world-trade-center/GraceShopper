@@ -19,6 +19,13 @@ class SingleProduct extends React.Component {
     } catch (error) {
       console.log(error)
     }
+    // if (this.props.user.id) {
+    //   try {
+    //     const order = await Axios.get('/api')
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // }
     history.push('/cart')
   }
 
@@ -55,6 +62,7 @@ class SingleProduct extends React.Component {
 const mapStateToProps = state => {
   return {
     product: state.products.singleProduct
+    // user: state.user
   }
 }
 

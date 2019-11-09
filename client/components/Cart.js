@@ -1,6 +1,10 @@
 import React from 'react'
 import Axios from 'axios'
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
+
+//eager load on all routes not only auth/me
+//update order complete value on checkout button
 
 class Cart extends React.Component {
   constructor() {
@@ -16,16 +20,33 @@ class Cart extends React.Component {
     this.totalItems = this.totalItems.bind(this)
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    console.log(this.props.user)
     let potatoArray = []
     let keys = Object.keys(localStorage)
     for (let i = 0; i < keys.length; i++) {
       let potato = JSON.parse(localStorage.getItem(keys[i]))
       potatoArray.push(potato)
     }
-    this.setState({
-      products: this.state.products.concat(potatoArray)
-    })
+    if (this.props.user.id) {
+      const orders = this.props.user.orders
+      let order
+      for (let i = 0; i < orders.length; i++) {
+        if (orders[i].complete === false) {
+          const currentOrder = orders[i]
+          order = await Axios.post(`/api/orders/${currentOrder.id}`, {
+            products: potatoArray
+          })
+        }
+      }
+      this.setState({
+        products: order.data.products
+      })
+    } else {
+      this.setState({
+        products: this.state.products.concat(potatoArray)
+      })
+    }
   }
 
   async checkout() {
@@ -94,6 +115,7 @@ class Cart extends React.Component {
   }
 
   render() {
+    console.log('this.state', this.state)
     return (
       <div className="cart-component-container">
         <div className="attributes">
@@ -148,7 +170,11 @@ class Cart extends React.Component {
           <div className="checkout-button">
             <h3>TOTAL ITEMS: {this.totalItems()} </h3>
             <h3>TOTAL: {this.total() / 100} USD </h3>
-            <button type="submit" onClick={this.checkout}>
+            <button
+              type="submit"
+              disabled={!this.props.user.id}
+              onClick={this.checkout}
+            >
               Checkout
             </button>
           </div>
@@ -158,4 +184,8 @@ class Cart extends React.Component {
   }
 }
 
-export default Cart
+const mapStateToProps = state => {
+  return {user: state.user}
+}
+
+export default connect(mapStateToProps)(Cart)
