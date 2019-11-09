@@ -3,9 +3,6 @@ import Axios from 'axios'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 
-//eager load on all routes not only auth/me
-//update order complete value on checkout button
-
 class Cart extends React.Component {
   constructor() {
     super()
@@ -21,12 +18,14 @@ class Cart extends React.Component {
   }
 
   async componentDidMount() {
+    //loops through local storage and pushes all items in array
     let potatoArray = []
     let keys = Object.keys(localStorage)
     for (let i = 0; i < keys.length; i++) {
       let potato = JSON.parse(localStorage.getItem(keys[i]))
       potatoArray.push(potato)
     }
+
     //If user signed in
     if (this.props.user.id) {
       const orders = this.props.user.orders
@@ -40,11 +39,12 @@ class Cart extends React.Component {
           })
         }
       }
+
       this.setState({
         products: order.data.products
       })
     } else {
-      //if no user is signed in make the local storage state
+      //if no user is signed in make the local storage the cart state
       this.setState({
         products: this.state.products.concat(potatoArray)
       })
