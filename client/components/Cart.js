@@ -2,6 +2,7 @@ import React from 'react'
 import Axios from 'axios'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
+import {SSL_OP_SSLEAY_080_CLIENT_DH_BUG} from 'constants'
 
 class Cart extends React.Component {
   constructor() {
@@ -54,6 +55,15 @@ class Cart extends React.Component {
   }
 
   async checkout() {
+    console.log(this.props.user.orders)
+
+    for (let i = 0; i < this.props.user.orders.length; i++) {
+      if (this.props.user.orders[i].complete === false) {
+        this.props.user.orders[i].complete = true
+      }
+    }
+    console.log('after checkout', this.props.user.orders)
+
     try {
       for (let i = 0; i < this.state.products.length; i++) {
         const potatoId = this.state.products[i].id
