@@ -6,6 +6,8 @@ import Axios from 'axios'
 // const BOUGHT_CART = 'BOUGHT_CART'
 const GOT_CART = 'GOT_CART'
 const GOT_CART_ITEMS = 'GOT_CART_ITEMS'
+const ADD_CART_ITEM = 'ADD_CART_ITEM'
+const DELETE_CART_ITEM = 'DELETE_CART_ITEM'
 
 //INITIAL STATE
 const cartObject = {
