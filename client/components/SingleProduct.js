@@ -12,13 +12,6 @@ class SingleProduct extends React.Component {
 
   async handleAddToCart() {
     const itemId = this.props.product.id
-    try {
-      const potato = await Axios.get(`/api/products/${itemId}`)
-      potato.data.inventory = 1
-      localStorage.setItem(itemId, JSON.stringify(potato.data))
-    } catch (error) {
-      console.log(error)
-    }
     if (this.props.user.id) {
       const userOrders = this.props.user.orders
       const currentOrder = userOrders[userOrders.length - 1]
@@ -27,6 +20,14 @@ class SingleProduct extends React.Component {
           orderId: currentOrder.id,
           productId: itemId
         })
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      try {
+        const potato = await Axios.get(`/api/products/${itemId}`)
+        potato.data.amount = 1
+        localStorage.setItem(itemId, JSON.stringify(potato.data))
       } catch (error) {
         console.log(error)
       }
