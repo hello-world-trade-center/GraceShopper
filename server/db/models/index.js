@@ -1,6 +1,7 @@
 const User = require('./user')
 const Product = require('./product')
 const Order = require('./order')
+const OrderItem = require('./Order_item')
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -10,8 +11,9 @@ const Order = require('./order')
  */
 User.hasMany(Order)
 Order.belongsTo(User)
-Order.hasMany(Product)
-Product.belongsTo(Order, {through: 'OrderProducts'})
+Order.hasMany(OrderItem)
+OrderItem.belongs(Product)
+OrderItem.belongs(Order)
 
 // Order.belongsToMany(Product, {through: 'OrderProducts'})
 /**

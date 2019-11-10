@@ -55,14 +55,11 @@ class Cart extends React.Component {
   }
 
   async checkout() {
-    console.log(this.props.user.orders)
-
     for (let i = 0; i < this.props.user.orders.length; i++) {
-      if (this.props.user.orders[i].complete === false) {
+      if (!this.props.user.orders[i].complete) {
         this.props.user.orders[i].complete = true
       }
     }
-    console.log('after checkout', this.props.user.orders)
 
     try {
       for (let i = 0; i < this.state.products.length; i++) {
