@@ -9,11 +9,12 @@ class Cart extends React.Component {
       products: []
     }
     this.checkout = this.checkout.bind(this)
-    this.increment = this.increment.bind(this)
-    this.decrement = this.decrement.bind(this)
+    // this.increment = this.increment.bind(this)
+    // this.decrement = this.decrement.bind(this)
     this.remove = this.remove.bind(this)
     this.total = this.total.bind(this)
     this.totalItems = this.totalItems.bind(this)
+    this.selector = this.selector.bind(this)
   }
   async componentDidMount() {
     //loops through local storage and pushes all items in array
@@ -66,55 +67,59 @@ class Cart extends React.Component {
       console.log(error)
     }
   }
-  async increment(current) {
-    try {
-      let specificPotato = await Axios.get(`/api/products/${current.id}`)
-      if (current.quantity < specificPotato.data.quantity) {
-        current.quantity += 1
-        let quantity = JSON.parse(localStorage.getItem(current.id)).quantity
-        current.quantity = quantity + 1
-        localStorage.setItem(current.id, JSON.stringify(current))
-        this.setState({})
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  }
-  decrement(current) {
-    if (current.quantity > 1) {
-      current.quantity -= 1
-      let quantity = JSON.parse(localStorage.getItem(current.id)).quantity
-      current.quantity = quantity - 1
-      localStorage.setItem(current.id, JSON.stringify(current))
-      this.setState({})
-    }
-  }
+
+  async selector(current) {}
+  // async increment(current) {
+  //   try {
+  //     let specificPotato = await Axios.get(`/api/products/${current.id}`)
+  //     if (current.quantity < specificPotato.data.quantity) {
+  //       current.quantity += 1
+  //       let quantity = JSON.parse(localStorage.getItem(current.id)).quantity
+  //       current.quantity = quantity + 1
+  //       localStorage.setItem(current.id, JSON.stringify(current))
+  //       this.setState({})
+  //     }
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  // }
+  // decrement(current) {
+  //   if (current.quantity > 1) {
+  //     current.quantity -= 1
+  //     let quantity = JSON.parse(localStorage.getItem(current.id)).quantity
+  //     current.quantity = quantity - 1
+  //     localStorage.setItem(current.id, JSON.stringify(current))
+  //     this.setState({})
+  //   }
+  // }
   remove(id) {
     let copyArray = this.state.products.filter(current => {
       if (current.id !== id) {
         return current
       }
     })
+
     this.setState({products: copyArray})
     localStorage.removeItem(id)
   }
   total() {
-    let total = 0
-    for (let i = 0; i < this.state.products.length; i++) {
-      let currentProduct = this.state.products[i].price
-      currentProduct = currentProduct * this.state.products[i].quantity
-      total += currentProduct
-    }
-    return total
+    // let total = 0
+    // for (let i = 0; i < this.state.products.length; i++) {
+    //   let currentProduct = this.state.products[i].price
+    //   currentProduct = currentProduct * this.state.products[i].quantity
+    //   total += currentProduct
+    // }
+    // return total
   }
   totalItems() {
-    let total = 0
-    for (let i = 0; i < this.state.products.length; i++) {
-      let currentProduct = this.state.products[i].quantity
-      total += currentProduct
-    }
-    return total
+    // let total = 0
+    // for (let i = 0; i < this.state.products.length; i++) {
+    //   let currentProduct = this.state.products[i].quantity
+    //   total += currentProduct
+    // }
+    // return total
   }
+
   render() {
     console.log('in render', this.state)
     return (
@@ -141,6 +146,18 @@ class Cart extends React.Component {
                 <p>{current.origin}</p>
                 <p>{current.price / 100} USD</p>
                 <p>{current.quantity}</p>
+                <select>
+                  <option value={1}>1</option>
+                  <option value={2}>2</option>
+                  <option value={3}>3</option>
+                  <option value={4}>4</option>
+                  <option value={5}>5</option>
+                  <option value={6}>6</option>
+                  <option value={7}>7</option>
+                  <option value={8}>8</option>
+                  <option value={9}>9</option>
+                  <option value={10}>10</option>
+                </select>
                 <div className="button">
                   <button type="submit" onClick={() => this.increment(current)}>
                     +
