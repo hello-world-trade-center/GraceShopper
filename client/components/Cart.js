@@ -16,7 +16,6 @@ class Cart extends React.Component {
     this.totalItems = this.totalItems.bind(this)
   }
   async componentDidMount() {
-    console.log('user in cart', this.props.user)
     //loops through local storage and pushes all items in array
     let potatoArray = []
     let keys = Object.keys(localStorage)
@@ -25,29 +24,29 @@ class Cart extends React.Component {
       potatoArray.push(potato)
     }
     //If user signed in
-    // if (this.props.user.id) {
-    //   const userOrders = this.props.user.orders
-    //   let order
-    //   //find current order in the database
-    //   for (let i = 0; i < userOrders.length; i++) {
-    //     if (userOrders[i].complete === false) {
-    //       const currentOrder = userOrders[i]
-    //       console.log('should be false', currentOrder)
-    //       order = await Axios.post(`/api/orders/${currentOrder.id}`, {
-    //         products: potatoArray
-    //       })
-    //       console.log('from axios call', order)
-    //     }
-    //   }
-    //   this.setState({
-    //     products: order
-    //   })
-    // } else {
-    //if no user is signed in make the local storage the cart state
-    this.setState({
-      products: this.state.products.concat(potatoArray)
-    })
-    // }
+    if (this.props.user.id) {
+      const userOrders = this.props.user.orders
+      const currentOrder = userOrders[userOrders.length - 1]
+      const {data} = await Axios.get(`/api/order_item/${currentOrder.id}`)
+      console.log('data', data)
+      let orderItems = data.map(orderItem => orderItem.product)
+      console.log('orderItems', orderItems)
+      orderItems = potatoArray.concat(orderItems)
+      const map = {}
+      const cart = []
+      for (let i = 0; i < orderItems.length; i++) {
+        if (!map[orderItems[i].id]) {
+          cart.push(orderItems[i])
+          map[orderItems[i].id] = orderItems[i]
+        }
+      }
+      console.log('cart', cart)
+      this.setState({products: cart})
+    } else {
+      this.setState({
+        products: this.state.products.concat(potatoArray)
+      })
+    }
   }
   async checkout() {
     for (let i = 0; i < this.props.user.orders.length; i++) {

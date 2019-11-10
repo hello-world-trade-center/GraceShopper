@@ -14,16 +14,14 @@ class SingleProduct extends React.Component {
     const itemId = this.props.product.id
     try {
       const potato = await Axios.get(`/api/products/${itemId}`)
-      potato.data.quantity = 1
+      potato.data.inventory = 1
       localStorage.setItem(itemId, JSON.stringify(potato.data))
     } catch (error) {
       console.log(error)
     }
     if (this.props.user.id) {
-      console.log('user in single product', this.props.user)
       const userOrders = this.props.user.orders
       const currentOrder = userOrders[userOrders.length - 1]
-      console.log(currentOrder)
       try {
         const order = await Axios.post('/api/order_item/', {
           orderId: currentOrder.id,
