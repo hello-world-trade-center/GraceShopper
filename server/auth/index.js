@@ -9,8 +9,7 @@ router.post('/login', async (req, res, next) => {
       where: {email: req.body.email},
       include: [
         {
-          model: Order,
-          include: [{model: Product}]
+          model: Order
         }
       ]
     })
@@ -36,8 +35,7 @@ router.post('/signup', async (req, res, next) => {
     })
     user = await User.findByPk(user.id, {
       include: {
-        model: Order,
-        include: [{model: Product}]
+        model: Order
       }
     })
     req.login(user, err => (err ? next(err) : res.json(user)))
@@ -63,8 +61,7 @@ router.get('/me', async (req, res) => {
     const user = await User.findByPk(req.user.id, {
       include: [
         {
-          model: Order,
-          include: [{model: Product}]
+          model: Order
         }
       ]
     })

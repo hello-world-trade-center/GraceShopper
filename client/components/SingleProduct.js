@@ -19,13 +19,20 @@ class SingleProduct extends React.Component {
     } catch (error) {
       console.log(error)
     }
-    // if (this.props.user.id) {
-    //   try {
-    //     const order = await Axios.get('/api')
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // }
+    if (this.props.user.id) {
+      console.log('user in single product', this.props.user)
+      const userOrders = this.props.user.orders
+      const currentOrder = userOrders[userOrders.length - 1]
+      console.log(currentOrder)
+      try {
+        const order = await Axios.post('/api/order_item/', {
+          orderId: currentOrder.id,
+          productId: itemId
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    }
     history.push('/cart')
   }
 
@@ -61,8 +68,8 @@ class SingleProduct extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    product: state.products.singleProduct
-    // user: state.user
+    product: state.products.singleProduct,
+    user: state.user
   }
 }
 

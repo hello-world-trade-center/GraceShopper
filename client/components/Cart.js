@@ -2,8 +2,6 @@ import React from 'react'
 import Axios from 'axios'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {SSL_OP_SSLEAY_080_CLIENT_DH_BUG} from 'constants'
-
 class Cart extends React.Component {
   constructor() {
     super()
@@ -17,8 +15,8 @@ class Cart extends React.Component {
     this.total = this.total.bind(this)
     this.totalItems = this.totalItems.bind(this)
   }
-
   async componentDidMount() {
+    console.log('user in cart', this.props.user)
     //loops through local storage and pushes all items in array
     let potatoArray = []
     let keys = Object.keys(localStorage)
@@ -26,41 +24,37 @@ class Cart extends React.Component {
       let potato = JSON.parse(localStorage.getItem(keys[i]))
       potatoArray.push(potato)
     }
-
     //If user signed in
-    if (this.props.user.id) {
-      const userOrders = this.props.user.orders
-      let order
-      //find current order in the database
-      for (let i = 0; i < userOrders.length; i++) {
-        if (userOrders[i].complete === false) {
-          const currentOrder = userOrders[i]
-          console.log('should be false', currentOrder)
-          order = await Axios.post(`/api/orders/${currentOrder.id}`, {
-            products: potatoArray
-          })
-          console.log('from axios call', order)
-        }
-      }
-
-      this.setState({
-        products: order.data.products
-      })
-    } else {
-      //if no user is signed in make the local storage the cart state
-      this.setState({
-        products: this.state.products.concat(potatoArray)
-      })
-    }
+    // if (this.props.user.id) {
+    //   const userOrders = this.props.user.orders
+    //   let order
+    //   //find current order in the database
+    //   for (let i = 0; i < userOrders.length; i++) {
+    //     if (userOrders[i].complete === false) {
+    //       const currentOrder = userOrders[i]
+    //       console.log('should be false', currentOrder)
+    //       order = await Axios.post(`/api/orders/${currentOrder.id}`, {
+    //         products: potatoArray
+    //       })
+    //       console.log('from axios call', order)
+    //     }
+    //   }
+    //   this.setState({
+    //     products: order
+    //   })
+    // } else {
+    //if no user is signed in make the local storage the cart state
+    this.setState({
+      products: this.state.products.concat(potatoArray)
+    })
+    // }
   }
-
   async checkout() {
     for (let i = 0; i < this.props.user.orders.length; i++) {
       if (!this.props.user.orders[i].complete) {
         this.props.user.orders[i].complete = true
       }
     }
-
     try {
       for (let i = 0; i < this.state.products.length; i++) {
         const potatoId = this.state.products[i].id
@@ -73,7 +67,6 @@ class Cart extends React.Component {
       console.log(error)
     }
   }
-
   async increment(current) {
     try {
       let specificPotato = await Axios.get(`/api/products/${current.id}`)
@@ -88,7 +81,6 @@ class Cart extends React.Component {
       console.error(error)
     }
   }
-
   decrement(current) {
     if (current.quantity > 1) {
       current.quantity -= 1
@@ -124,9 +116,8 @@ class Cart extends React.Component {
     }
     return total
   }
-
   render() {
-    console.log('in render', this.props.user)
+    console.log('in render', this.state)
     return (
       <div className="cart-component-container">
         <div className="attributes">
@@ -151,7 +142,6 @@ class Cart extends React.Component {
                 <p>{current.origin}</p>
                 <p>{current.price / 100} USD</p>
                 <p>{current.quantity}</p>
-
                 <div className="button">
                   <button type="submit" onClick={() => this.increment(current)}>
                     +
@@ -164,7 +154,6 @@ class Cart extends React.Component {
                   >
                     -
                   </button>
-
                   <button type="submit" onClick={() => this.remove(current.id)}>
                     Remove Item
                   </button>
@@ -194,9 +183,7 @@ class Cart extends React.Component {
     )
   }
 }
-
 const mapStateToProps = state => {
   return {user: state.user}
 }
-
 export default connect(mapStateToProps)(Cart)
