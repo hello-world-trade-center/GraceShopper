@@ -1,7 +1,8 @@
 import React from 'react'
 import Axios from 'axios'
-import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
+import Cartitem from './CartItem'
+
 class Cart extends React.Component {
   constructor() {
     super()
@@ -9,8 +10,6 @@ class Cart extends React.Component {
       products: []
     }
     this.checkout = this.checkout.bind(this)
-    // this.increment = this.increment.bind(this)
-    // this.decrement = this.decrement.bind(this)
     this.remove = this.remove.bind(this)
     this.total = this.total.bind(this)
     this.totalItems = this.totalItems.bind(this)
@@ -29,26 +28,27 @@ class Cart extends React.Component {
       const userOrders = this.props.user.orders
       const currentOrder = userOrders[userOrders.length - 1]
       const {data} = await Axios.get(`/api/order_item/${currentOrder.id}`)
-      console.log('data', data)
-      let orderItems = data.map(orderItem => orderItem.product)
-      console.log('orderItems', orderItems)
+      let orderItems = data.map(orderItem => {
+        orderItem.product.amount = orderItem.amount
+        return orderItem.product
+      })
       orderItems = potatoArray.concat(orderItems)
       const map = {}
-      const cart = []
-      for (let i = 0; i < orderItems.length; i++) {
-        if (!map[orderItems[i].id]) {
-          cart.push(orderItems[i])
-          map[orderItems[i].id] = orderItems[i]
+      orderItems = orderItems.filter(item => {
+        if (!map[item.id]) {
+          map[item.id] = item
+          return map[item.id]
         }
-      }
-      console.log('cart', cart)
-      this.setState({products: cart})
+      })
+      console.log(orderItems)
+      this.setState({products: orderItems})
     } else {
       this.setState({
         products: this.state.products.concat(potatoArray)
       })
     }
   }
+
   async checkout() {
     for (let i = 0; i < this.props.user.orders.length; i++) {
       if (!this.props.user.orders[i].complete) {
@@ -68,30 +68,6 @@ class Cart extends React.Component {
     }
   }
 
-  async selector(current) {}
-  // async increment(current) {
-  //   try {
-  //     let specificPotato = await Axios.get(`/api/products/${current.id}`)
-  //     if (current.quantity < specificPotato.data.quantity) {
-  //       current.quantity += 1
-  //       let quantity = JSON.parse(localStorage.getItem(current.id)).quantity
-  //       current.quantity = quantity + 1
-  //       localStorage.setItem(current.id, JSON.stringify(current))
-  //       this.setState({})
-  //     }
-  //   } catch (error) {
-  //     console.error(error)
-  //   }
-  // }
-  // decrement(current) {
-  //   if (current.quantity > 1) {
-  //     current.quantity -= 1
-  //     let quantity = JSON.parse(localStorage.getItem(current.id)).quantity
-  //     current.quantity = quantity - 1
-  //     localStorage.setItem(current.id, JSON.stringify(current))
-  //     this.setState({})
-  //   }
-  // }
   remove(id) {
     let copyArray = this.state.products.filter(current => {
       if (current.id !== id) {
@@ -135,47 +111,7 @@ class Cart extends React.Component {
         </div>
         {this.state.products.length !== 0 ? (
           this.state.products.map(current => {
-            return (
-              <div className="single-product" key={current.id}>
-                <Link to={`/products/${current.id}`}>
-                  <img className="cart-product-img" src={current.imageUrl} />
-                </Link>
-                <Link to={`/products/${current.id}`}>
-                  <h3>{current.name}</h3>
-                </Link>
-                <p>{current.origin}</p>
-                <p>{current.price / 100} USD</p>
-                <p>{current.quantity}</p>
-                <select>
-                  <option value={1}>1</option>
-                  <option value={2}>2</option>
-                  <option value={3}>3</option>
-                  <option value={4}>4</option>
-                  <option value={5}>5</option>
-                  <option value={6}>6</option>
-                  <option value={7}>7</option>
-                  <option value={8}>8</option>
-                  <option value={9}>9</option>
-                  <option value={10}>10</option>
-                </select>
-                <div className="button">
-                  <button type="submit" onClick={() => this.increment(current)}>
-                    +
-                  </button>
-                  <button
-                    type="submit"
-                    onClick={() => {
-                      this.decrement(current)
-                    }}
-                  >
-                    -
-                  </button>
-                  <button type="submit" onClick={() => this.remove(current.id)}>
-                    Remove Item
-                  </button>
-                </div>
-              </div>
-            )
+            return <Cartitem key={current.id} current={current} />
           })
         ) : (
           <div id="empty-cart">
@@ -199,6 +135,7 @@ class Cart extends React.Component {
     )
   }
 }
+
 const mapStateToProps = state => {
   return {user: state.user}
 }

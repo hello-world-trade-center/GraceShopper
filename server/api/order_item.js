@@ -28,12 +28,14 @@ router.get('/:orderId', async (req, res, next) => {
   }
 })
 
-// .get('/:cartId', (req, res, next) => {
-//     Order.find({
-//       where: { id: req.params.cartId },
-//       include: [{model: OrderItem, include: [Product]}]
-//     })
-//     .then(foundOrder => res.json(foundOrder))
-//     .catch(next)
+router.post('/:orderId', async (req, res, next) => {
+  try {
+    const order = await OrderItem.findByPk(req.params.orderId)
+    order.update({...order, amount: req.body.amount})
+    res.json(order)
+  } catch (error) {
+    next(error)
+  }
+})
 
 module.exports = router
