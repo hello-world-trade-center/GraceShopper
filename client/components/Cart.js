@@ -73,26 +73,28 @@ class Cart extends React.Component {
         return current
       }
     })
+
     this.setState({products: copyArray})
     localStorage.removeItem(id)
   }
   total() {
-    let total = 0
-    for (let i = 0; i < this.state.products.length; i++) {
-      let currentProduct = this.state.products[i].price
-      currentProduct = currentProduct * this.state.products[i].quantity
-      total += currentProduct
-    }
-    return total
+    // let total = 0
+    // for (let i = 0; i < this.state.products.length; i++) {
+    //   let currentProduct = this.state.products[i].price
+    //   currentProduct = currentProduct * this.state.products[i].quantity
+    //   total += currentProduct
+    // }
+    // return total
   }
   totalItems() {
-    let total = 0
-    for (let i = 0; i < this.state.products.length; i++) {
-      let currentProduct = this.state.products[i].quantity
-      total += currentProduct
-    }
-    return total
+    // let total = 0
+    // for (let i = 0; i < this.state.products.length; i++) {
+    //   let currentProduct = this.state.products[i].quantity
+    //   total += currentProduct
+    // }
+    // return total
   }
+
   render() {
     console.log('in render', this.state)
     return (
