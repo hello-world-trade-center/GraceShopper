@@ -52,4 +52,28 @@ router.delete('/:userId', async (req, res, next) => {
   }
 })
 
+// UPDATE USER
+router.put('/:userId/profile', async (req, res, next) => {
+  try {
+    const id = req.params.userId
+    const userToUpdate = await User.findByPk(id)
+    if (userToUpdate) {
+      const updatedUser = await userToUpdate.update(req.body)
+      res.status(201).json(updatedUser)
+    } else {
+      res.status(404).send('User does not exist')
+    }
+  } catch (error) {
+    console.error(error)
+  }
+})
+
+/* Student.update(req.body, {
+    where: {
+      id: req.params.id,
+    },
+    returning: true,
+  })
+    .then(test => res.status(201).json(test[1][0])) */
+
 module.exports = router

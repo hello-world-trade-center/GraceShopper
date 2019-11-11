@@ -9,11 +9,6 @@ const REMOVE_USER = 'REMOVE_USER'
 const UPDATE_USER = 'UPDATE_USER'
 
 /**
- * INITIAL STATE
- */
-const defaultUser = {}
-
-/**
  * ACTION CREATORS
  */
 const getUser = user => ({type: GET_USER, user})
@@ -73,14 +68,29 @@ export const logout = () => async dispatch => {
     console.error(err)
   }
 }
+// export const gotUser = () => async dispatch => {
+//   try {
+//     const user = await axios.get(`/api/users/${user.id}`)
+//   } catch (error) {
+//     console.error(error)
+//   }
+// }
 
 export const update = user => async dispatch => {
   try {
-    const userToUpdate = await axios.put(`/home/${user.name}`)
+    const userToUpdate = await axios.put(`/${user.id}/profile`)
     dispatch(updateUser(userToUpdate.data))
   } catch (error) {
     console.error(error)
   }
+}
+
+/**
+ * INITIAL STATE
+ */
+const defaultUser = {
+  allUsers: [],
+  singleUser: {}
 }
 
 /**
@@ -93,7 +103,7 @@ export default function(state = defaultUser, action) {
     case REMOVE_USER:
       return defaultUser
     case UPDATE_USER:
-      return action.user
+      return {...state, singleUser: action.user}
     default:
       return state
   }
