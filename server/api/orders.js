@@ -1,13 +1,32 @@
 const router = require('express').Router()
-const {Order} = require('../db/models')
+const {Order, Product, User, OrderItem} = require('../db/models')
 
 router.get('/:orderId', async (req, res, next) => {
   try {
-    const order = await Order.findByPk(req.params.id, {
+    const order = await Order.findByPk(req.params.orderId, {
+      include: [{model: OrderItem, include: [Product]}]
+    })
+    res.json(order)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.post('/:orderId', async (req, res, next) => {
+  try {
+    const order = await Order.findByPk(req.params.orderId, {
       include: {
-        model: Product
+        model: OrderItem
       }
     })
+    const newProducts = []
+    for (let i = 0; i < req.body.products.length; i++) {
+      const product = req.body.products[i]
+      product.orderId = order.id
+      newProducts.push(product)
+    }
+    const updatedOrder = await order.update({...order, products: newProducts})
+    res.status(201).send(updatedOrder)
   } catch (err) {
     next(err)
   }
@@ -15,9 +34,10 @@ router.get('/:orderId', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
+    console.log('req body in route', req.body)
     const newOrder = await Order.create(req.body, {
       include: {
-        model: Product
+        model: OrderItem
       }
     })
     res.status(201).send(newOrder)
@@ -26,17 +46,16 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.post('/:orderId', async (req, res, next) => {
-  try {
-    const order = await Order.findByPk(req.params.id)
-    const updatedOrder = await order.update({
-      ...order,
-      complete: true
-    })
-    res.send(updatedOrder)
-  } catch (error) {
-    next(error)
-  }
-})
+// router.post('/:orderId', async (req, res, next) => {
+//   try {
+//     const order = await Order.findByPk(req.params.id)
+//     const updatedOrder = await order.update({
+//       ...order
+//     })
+//     res.send(updatedOrder)
+//   } catch (error) {
+//     next(error)
+//   }
+// })
 
 module.exports = router
