@@ -76,7 +76,6 @@ export function getCart(orderId) {
 }
 
 export function deleteCartItem(orderId, itemId) {
-  console.log(orderId, 'in store', itemId)
   if (orderId === 0) {
     return async dispacth => {
       await deletedCartItem(itemId)
