@@ -42,6 +42,7 @@ router.get('/:orderId', async (req, res, next) => {
 
 router.delete('/:orderId/:productId', async (req, res, next) => {
   try {
+    console.log('req params ', req.params)
     const order = await OrderItem.destroy({
       where: {
         productId: req.params.productId,
