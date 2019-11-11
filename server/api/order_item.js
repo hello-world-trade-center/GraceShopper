@@ -38,4 +38,14 @@ router.post('/:orderId', async (req, res, next) => {
   }
 })
 
+router.delete('/', async (req, res, next) => {
+  try {
+    const order = await OrderItem.findByPk(req.body)
+    order.destroy()
+    res.json(order)
+  } catch (error) {
+    next(error)
+  }
+})
+
 module.exports = router

@@ -6,14 +6,10 @@ import Axios from 'axios'
 // const BOUGHT_CART = 'BOUGHT_CART'
 const GOT_CART = 'GOT_CART'
 const GOT_CART_ITEMS = 'GOT_CART_ITEMS'
-const ADD_CART_ITEM = 'ADD_CART_ITEM'
-const DELETE_CART_ITEM = 'DELETE_CART_ITEM'
+const ADDED_CART_ITEM = 'ADDED_CART_ITEM'
+const DELETED_CART_ITEM = 'DELETED_CART_ITEM'
 
 //INITIAL STATE
-const cartObject = {
-  cart: {},
-  cartItems: []
-}
 
 //ACTION CREATORS
 // const addToCart = product => ({type: ADDED_TO_CART, product})
@@ -30,17 +26,47 @@ const gotCartItems = data => ({
   data
 })
 
-const updateCartItem = () => ({
-  type: UPDATE_CART_ITEM
+const addedCartItem = data => ({
+  type: ADDED_CART_ITEM,
+  data
 })
 
-const deleteCartItem = () => ({
-  type: DELETE_CART_ITEM
+// const updateCartItem = () => ({
+//   type: UPDATE_CART_ITEM
+// })
+
+const deletedCartItem = () => ({
+  type: DELETED_CART_ITEM
 })
 
-const submitOrder = () => ({
-  type: SUBMIT_ORDER
-})
+// const submitOrder = () => ({
+//   type: SUBMIT_ORDER
+// })
+
+export function deleteCartItem(item) {
+  return async dispatch => {
+    try {
+      const deletedOrder = await Axios.delete(`/api/order_item/${item.id}`)
+      dispatch(deletedCartItem())
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
+export function addCartItem(item, order) {
+  return async dispatch => {
+    try {
+      const newOrder = await Axios.post('/api/order_item/', {
+        orderId: order,
+        productId: item
+      })
+      dispatch(addedCartItem(newOrder))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
 
 export function getCart(orderId) {
   return async dispatch => {
@@ -65,6 +91,11 @@ export function getCartItems(orderId) {
   }
 }
 
+const cartObject = {
+  cart: {},
+  cartItems: []
+}
+
 const cartReducer = (state = cartObject, action) => {
   switch (action.type) {
     case GOT_CART:
@@ -76,8 +107,26 @@ const cartReducer = (state = cartObject, action) => {
     // case BOUGHT_CART:
     //   return []
     case GOT_CART_ITEMS:
-      console.log('data', action.data)
-      return {...state, cartItems: action.data}
+      const allItems = action.data.map(current => {
+        return current.product
+      })
+      const map = {}
+      const allItems2 = allItems.filter(current => {
+        if (!map[current.id]) {
+          map[current.id] = current
+          return current
+        }
+      })
+      return {...state, cartItems: allItems2}
+
+    case ADDED_CART_ITEM:
+      console.log('order', action.data)
+      return state
+    // return {...state, cartItems: }
+
+    case DELETED_CART_ITEM:
+      return state
+
     default:
       console.log('default')
       return state
