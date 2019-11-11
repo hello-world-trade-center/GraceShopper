@@ -37,7 +37,6 @@ class UserHome extends React.Component {
     }
     console.log('UPDATED USER', updatedUser)
     this.props.update(updatedUser)
-    // this.setState({})
   }
   async handleChange(event) {
     await this.setState({
@@ -50,14 +49,11 @@ class UserHome extends React.Component {
   }
 
   render() {
-    // console.log('PROPS OF USERS', this.props.user)
-    // console.log('CURRENT STATE', this.state)
-
     const props = this.props.user
     return (
       <div className="profile">
         <div className="profile-info">
-          <h3>Welcome!</h3>
+          <h2>Welcome, {props.name}!</h2>
           <h3>Name</h3>
           <p>{props.name}</p>
           <h3>Email</h3>
@@ -121,10 +117,15 @@ class UserHome extends React.Component {
               onChange={this.handleChange}
             />
           </form>
-
-          <button onClick={this.handleSubmit} type="submit">
-            Edit Profile
-          </button>
+          <div className="update-button-container">
+            <button
+              className="update-button"
+              onClick={this.handleSubmit}
+              type="submit"
+            >
+              Edit Profile
+            </button>
+          </div>
         </div>
       </div>
     )

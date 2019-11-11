@@ -52,9 +52,7 @@ const productState = {
 const productReducer = (state = productState, action) => {
   switch (action.type) {
     case GOT_PRODUCTS:
-      const newAllProducts = state.allProducts.concat(action.products)
-      const allProductsState = {...state, allProducts: newAllProducts}
-      return allProductsState
+      return {...state, allProducts: state.allProducts.concat(action.products)}
 
     case GOT_PRODUCT: {
       const newSingleProduct = {...state, singleProduct: action.product}
