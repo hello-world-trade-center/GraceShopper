@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {update, me} from '../store/user'
+import {update} from '../store/user'
 
 /**
  * COMPONENT
@@ -37,7 +37,6 @@ class UserHome extends React.Component {
     }
     console.log('UPDATED USER', updatedUser)
     this.props.update(updatedUser)
-    // this.setState({})
   }
   async handleChange(event) {
     await this.setState({
@@ -45,37 +44,33 @@ class UserHome extends React.Component {
     })
   }
 
-  async componentDidMount() {
-    await this.props.me()
+  componentDidMount() {
+    this.setState({})
   }
 
   render() {
-    // console.log('PROPS OF USERS', this.props.user)
-    // console.log('CURRENT STATE', this.state)
-
     const props = this.props.user
     return (
       <div className="profile">
-        <h3>Welcome!</h3>
-        <h3>Name:</h3>
-        <p>{props.name}</p>
-        <h3>Email</h3>
-        <p>{props.email}</p>
-        <h3>Street Address</h3>
-        <p>{props.address}</p>
-        <h3>City</h3>
-        <p>{props.city}</p>
-        <h3>Zip</h3>
-        <p>{props.zipcode}</p>
-        {/* {props.zipcode !== null ? (
-          <div>
-            <h3>Zip</h3>
-            <p>{props.zipcode}</p>{' '}
-          </div>
-        ) : null} */}
+        <div className="profile-info">
+          <h2>Welcome, {props.name}!</h2>
+          <h3>Name</h3>
+          <p>{props.name}</p>
+          <h3>Email</h3>
+          <p>{props.email}</p>
+          <h3>Street Address</h3>
+          <p>{props.address}</p>
+          <h3>City</h3>
+          <p>{props.city}</p>
+          <h3>Zip</h3>
+          <p>{props.zipCode}</p>
+        </div>
+
         <div className="update-form-container">
           <form id="todo-form" onSubmit={this.handleSubmit}>
-            <label htmlFor="name">Update Name:</label>
+            <h3>
+              <label htmlFor="name">Update Name:</label>
+            </h3>
             <input
               name="name"
               type="text"
@@ -83,15 +78,18 @@ class UserHome extends React.Component {
               onChange={this.handleChange}
             />
 
-            <label htmlFor="email">Update Email:</label>
+            <h3>
+              <label htmlFor="email">Update Email:</label>
+            </h3>
             <input
               name="email"
               type="text"
               placeholder={props.email}
               onChange={this.handleChange}
             />
-
-            <label htmlFor="address">Update Street Address:</label>
+            <h3>
+              <label htmlFor="address">Update Street Address:</label>
+            </h3>
             <input
               name="address"
               type="text"
@@ -99,7 +97,9 @@ class UserHome extends React.Component {
               onChange={this.handleChange}
             />
 
-            <label htmlFor="city">Update City:</label>
+            <h3>
+              <label htmlFor="city">Update City:</label>
+            </h3>
             <input
               name="city"
               type="text"
@@ -107,7 +107,9 @@ class UserHome extends React.Component {
               onChange={this.handleChange}
             />
 
-            <label htmlFor="zipCode">Update Zip:</label>
+            <h3>
+              <label htmlFor="zipCode">Update Zip:</label>
+            </h3>
             <input
               name="zipCode"
               type="text"
@@ -115,10 +117,15 @@ class UserHome extends React.Component {
               onChange={this.handleChange}
             />
           </form>
-
-          <button onClick={this.handleSubmit} type="submit">
-            Edit Profile
-          </button>
+          <div className="update-button-container">
+            <button
+              className="update-button"
+              onClick={this.handleSubmit}
+              type="submit"
+            >
+              Edit Profile
+            </button>
+          </div>
         </div>
       </div>
     )
@@ -136,7 +143,6 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    me: () => dispatch(me()),
     update: user => dispatch(update(user))
   }
 }
