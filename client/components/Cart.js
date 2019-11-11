@@ -2,7 +2,7 @@ import React from 'react'
 import Axios from 'axios'
 import {connect} from 'react-redux'
 import Cartitem from './CartItem'
-import {deleteCartItem} from '../store/cart'
+import {addCartItem, deleteCartItem, clearCart} from '../store/cart'
 
 class Cart extends React.Component {
   constructor() {
@@ -13,6 +13,16 @@ class Cart extends React.Component {
   }
 
   async checkout() {
+    console.log('props', this.props)
+    const order = this.props.cart
+    const completedOrder = await Axios.post(
+      `/api/orders/checkout/${order.id}`,
+      {
+        total: this.total(true)
+      }
+    )
+    console.log('order here', completedOrder)
+    this.props.clearCart()
     // for (let i = 0; i < this.props.user.orders.length; i++) {
     //   if (!this.props.user.orders[i].complete) {
     //     this.props.user.orders[i].complete = true
@@ -31,22 +41,27 @@ class Cart extends React.Component {
     // }
   }
 
-  total() {
-    // let total = 0
-    // for (let i = 0; i < this.state.products.length; i++) {
-    //   let currentProduct = this.state.products[i].price
-    //   currentProduct = currentProduct * this.state.products[i].quantity
-    //   total += currentProduct
-    // }
-    // return total
+  total(db) {
+    let total = 0
+    const items = this.props.cart.order_items
+    if (!items.length) return 0
+    for (let i = 0; i < items.length; i++) {
+      let currentProduct = items[i].product
+      let productPrice = currentProduct.price * items[i].amount
+      total += productPrice
+    }
+    if (!db) {
+      return total / 100
+    }
+    return total
   }
   totalItems() {
-    // let total = 0
-    // for (let i = 0; i < this.state.products.length; i++) {
-    //   let currentProduct = this.state.products[i].quantity
-    //   total += currentProduct
-    // }
-    // return total
+    let total = 0
+    const items = this.props.cart.order_items
+    for (let i = 0; i < items.length; i++) {
+      total += Number(items[i].amount)
+    }
+    return total
   }
 
   render() {
@@ -68,6 +83,7 @@ class Cart extends React.Component {
                 key={current.product.id}
                 current={current}
                 remove={this.props.deleteCartItem}
+                addItem={this.props.addCartItem}
               />
             )
           })
@@ -79,7 +95,7 @@ class Cart extends React.Component {
         <div className="checkout-button-container">
           <div className="checkout-button">
             <h3>TOTAL ITEMS: {this.totalItems()} </h3>
-            <h3>TOTAL: {this.total() / 100} USD </h3>
+            <h3>TOTAL: {this.total()} USD </h3>
             <button
               type="submit"
               disabled={!this.props.user.id}
@@ -97,7 +113,10 @@ class Cart extends React.Component {
 const mapDispatchToProps = dispatch => {
   return {
     deleteCartItem: (orderId, productId) =>
-      dispatch(deleteCartItem(orderId, productId))
+      dispatch(deleteCartItem(orderId, productId)),
+    addCartItem: (orderId, productId, qty) =>
+      dispatch(addCartItem(orderId, productId, qty)),
+    clearCart: () => dispatch(clearCart())
   }
 }
 

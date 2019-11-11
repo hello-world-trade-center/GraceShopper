@@ -9,11 +9,14 @@ router.post('/:orderId', async (req, res, next) => {
         productId: req.body.productId
       }
     })
-
     if (!item) {
       item = await OrderItem.create({
         orderId: req.params.orderId,
         productId: req.body.productId
+      })
+    } else {
+      item = await item.update({
+        amount: req.body.amount
       })
     }
     res.json(item)
@@ -36,16 +39,6 @@ router.get('/:orderId', async (req, res, next) => {
     next(error)
   }
 })
-
-// router.post('/:orderId', async (req, res, next) => {
-//   try {
-//     const order = await OrderItem.findByPk(req.params.orderId)
-//     order.update({...order, amount: req.body.amount})
-//     res.json(order)
-//   } catch (error) {
-//     next(error)
-//   }
-// })
 
 router.delete('/:orderId/:productId', async (req, res, next) => {
   try {

@@ -8,6 +8,11 @@ const CartItem = props => {
     props.remove(props.current.id, product.id)
   }
 
+  function qtySelector(evt) {
+    evt.preventDefault()
+    props.addItem(props.current.orderId, product, evt.target.value)
+  }
+
   return (
     <div className="single-product">
       <Link to={`/products/${product.id}`}>
@@ -18,7 +23,8 @@ const CartItem = props => {
       </Link>
       <p>{product.origin}</p>
       <p>{product.price / 100} USD</p>
-      <select>
+      <select onChange={evt => qtySelector(evt)}>
+        <option value={props.current.amount}>{props.current.amount}</option>
         <option value={1}>1</option>
         <option value={2}>2</option>
         <option value={3}>3</option>

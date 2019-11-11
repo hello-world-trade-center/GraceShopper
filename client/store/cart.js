@@ -12,10 +12,11 @@ const gotCart = cart => ({
   cart
 })
 
-const addedCartItem = (orderId, product) => ({
+const addedCartItem = (orderId, product, qty) => ({
   type: ADDED_CART_ITEM,
   orderId,
-  product
+  product,
+  qty
 })
 
 const deletedCartItem = productId => ({
@@ -59,7 +60,7 @@ export function getCart(orderId) {
     try {
       const localCart = loadState()
       const orderItems = localCart.order_items.map(item => {
-        return dispatch(addCartItem(orderId, item.product))
+        return dispatch(addCartItem(orderId, item.product, item.amount))
       })
       return Promise.all(orderItems).then(() => {
         Axios.get(`/api/orders/${orderId}`)
@@ -93,19 +94,20 @@ export function deleteCartItem(orderId, itemId) {
   }
 }
 
-export function addCartItem(orderId, item) {
+export function addCartItem(orderId, item, qty) {
   if (orderId === 0) {
     return async dispatch => {
-      dispatch(addedCartItem(orderId, item))
+      dispatch(addedCartItem(orderId, item, qty))
     }
   }
 
   return async dispatch => {
     try {
       const newOrder = await Axios.post(`/api/order_item/${orderId}`, {
-        productId: item.id
+        productId: item.id,
+        amount: qty
       })
-      dispatch(addedCartItem(orderId, item))
+      dispatch(addedCartItem(orderId, item, qty))
     } catch (error) {
       console.log(error)
     }
@@ -141,7 +143,14 @@ const cartReducer = (state = loadState() || cart, action) => {
       let productExistsInCart = state.order_items.some(
         item => item.productId === action.product.id
       )
-      if (!productExistsInCart) {
+      if (productExistsInCart) {
+        cartItems = state.order_items.map(item => {
+          if (item.product.id === action.product.id) {
+            item.amount = action.qty
+          }
+          return item
+        })
+      } else {
         cartItems = state.order_items.concat([
           {
             orderId: action.orderId,
@@ -149,8 +158,6 @@ const cartReducer = (state = loadState() || cart, action) => {
             productId: action.product.id
           }
         ])
-      } else {
-        cartItems = state.order_items
       }
       return {...state, order_items: cartItems}
     default:
