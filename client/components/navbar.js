@@ -4,6 +4,7 @@ import {SearchBar} from './SearchBar'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+// import {AboutUs} from './index'
 // import {Login, Signup} from './index'
 
 const Navbar = ({handleClick, isLoggedIn, user}) => (
@@ -21,12 +22,15 @@ const Navbar = ({handleClick, isLoggedIn, user}) => (
             <a href="#" onClick={handleClick}>
               Logout
             </a>
+
             <Link to={`/users/${user.id}/profile`}>Profile</Link>
+            <Link to="/aboutus">About Us</Link>
             <Link to="/cart">Cart</Link>
           </div>
         ) : (
           <div>
             {/* The navbar will show these links before you log in */}
+            <Link to="/aboutus">About Us</Link>
             <Link to="/login">Login</Link>
             <Link to="/signup">Sign Up</Link>
             <Link to="/cart">Cart</Link>

@@ -2,7 +2,7 @@ import React from 'react'
 import history from '../history'
 import {connect} from 'react-redux'
 import {getProduct} from '../store/product'
-import Axios from 'axios'
+import {addCartItem} from '../store/cart'
 
 class SingleProduct extends React.Component {
   constructor() {
@@ -11,13 +11,13 @@ class SingleProduct extends React.Component {
   }
 
   async handleAddToCart() {
-    const itemId = this.props.product.id
-    try {
-      const potato = await Axios.get(`/api/products/${itemId}`)
-      potato.data.quantity = 1
-      localStorage.setItem(itemId, JSON.stringify(potato.data))
-    } catch (error) {
-      console.log(error)
+    const item = this.props.product
+    if (this.props.user.id) {
+      const userOrders = this.props.user.orders
+      const currentOrder = userOrders[userOrders.length - 1]
+      this.props.addCartItem(currentOrder.id, item, 1)
+    } else {
+      this.props.addCartItem(0, item, 1)
     }
     history.push('/cart')
   }
@@ -54,13 +54,15 @@ class SingleProduct extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    product: state.products.singleProduct
+    product: state.products.singleProduct,
+    user: state.user
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    getProduct: id => dispatch(getProduct(id))
+    getProduct: id => dispatch(getProduct(id)),
+    addCartItem: (id, order) => dispatch(addCartItem(id, order))
   }
 }
 

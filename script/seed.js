@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Product} = require('../server/db/models')
+const {User, Product, Order} = require('../server/db/models')
 
 //npm run seed
 const products = [
@@ -105,6 +105,12 @@ const users = [
   }
 ]
 
+const orders = [
+  {
+    userId: 1
+  }
+]
+
 async function seed() {
   await db.sync({force: true})
 
@@ -117,6 +123,12 @@ async function seed() {
   await Promise.all(
     users.map(user => {
       return User.create(user)
+    })
+  )
+
+  await Promise.all(
+    orders.map(order => {
+      return Order.create(order)
     })
   )
 
