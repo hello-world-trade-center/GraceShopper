@@ -2,6 +2,7 @@ import React from 'react'
 import Axios from 'axios'
 import {connect} from 'react-redux'
 import Cartitem from './CartItem'
+import {getCart, getCartItems} from '../store/cart'
 
 class Cart extends React.Component {
   constructor() {
@@ -25,26 +26,34 @@ class Cart extends React.Component {
     //If user signed in
     if (this.props.user.id) {
       const userOrders = this.props.user.orders
+
       const currentOrder = userOrders[userOrders.length - 1]
-      const {data} = await Axios.get(`/api/order_item/${currentOrder.id}`)
-      let orderItems = data.map(orderItem => {
-        orderItem.product.amount = orderItem.amount
-        return orderItem.product
-      })
-      orderItems = potatoArray.concat(orderItems)
-      const map = {}
-      orderItems = orderItems.filter(item => {
-        if (!map[item.id]) {
-          map[item.id] = item
-          return map[item.id]
-        }
-      })
-      console.log(orderItems)
-      this.setState({products: orderItems})
-    } else {
-      this.setState({
-        products: this.state.products.concat(potatoArray)
-      })
+
+      const cartitems = this.props.getCartItems(currentOrder.id)
+      // const cart = this.props.getCart(currentOrder.id)
+
+      console.log('props', this.props)
+      console.log('cartitems', cartitems)
+
+      //   const {data} = await Axios.get(`/api/order_item/${currentOrder.id}`)
+      //   let orderItems = data.map(orderItem => {
+      //     orderItem.product.amount = orderItem.amount
+      //     return orderItem.product
+      //   })
+      //   orderItems = potatoArray.concat(orderItems)
+      //   const map = {}
+      //   orderItems = orderItems.filter(item => {
+      //     if (!map[item.id]) {
+      //       map[item.id] = item
+      //       return map[item.id]
+      //     }
+      //   })
+      //   console.log(orderItems)
+      //   this.setState({products: orderItems})
+      // } else {
+      //   this.setState({
+      //     products: this.state.products.concat(potatoArray)
+      //   })
     }
   }
 
@@ -96,7 +105,7 @@ class Cart extends React.Component {
   }
 
   render() {
-    console.log('in render', this.state)
+    console.log('props', this.props)
     return (
       <div className="cart-component-container">
         <div className="attributes">
@@ -135,7 +144,21 @@ class Cart extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {user: state.user}
+const mapDispatchToProps = dispatch => {
+  return {
+    getCart: id => {
+      dispatch(getCart(id))
+    },
+    getCartItems: id => {
+      dispatch(getCartItems(id))
+    }
+  }
 }
-export default connect(mapStateToProps)(Cart)
+
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+    cart: state.cart
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Cart)

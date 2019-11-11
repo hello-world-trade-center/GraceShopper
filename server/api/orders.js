@@ -4,7 +4,7 @@ const {Order, Product, User, OrderItem} = require('../db/models')
 router.get('/:orderId', async (req, res, next) => {
   try {
     const order = await Order.findByPk(req.params.orderId, {
-      include: [User]
+      include: [User, OrderItem]
     })
     res.json(order)
   } catch (err) {
