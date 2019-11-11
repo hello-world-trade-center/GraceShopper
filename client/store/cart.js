@@ -2,19 +2,14 @@ import Axios from 'axios'
 
 //ACTION TYPES
 const GOT_CART = 'GOT_CART'
-const GOT_CART_ITEMS = 'GOT_CART_ITEMS'
 const ADDED_CART_ITEM = 'ADDED_CART_ITEM'
 const DELETED_CART_ITEM = 'DELETED_CART_ITEM'
+const CLEAR_CART = 'CLEAR_CART'
 
 //ACTION CREATORS
 const gotCart = cart => ({
   type: GOT_CART,
   cart
-})
-
-const gotCartItems = data => ({
-  type: GOT_CART_ITEMS,
-  data
 })
 
 const addedCartItem = (orderId, product) => ({
@@ -23,17 +18,14 @@ const addedCartItem = (orderId, product) => ({
   product
 })
 
-// const updateCartItem = () => ({
-//   type: UPDATE_CART_ITEM
-// })
-
-const deletedCartItem = () => ({
-  type: DELETED_CART_ITEM
+const deletedCartItem = productId => ({
+  type: DELETED_CART_ITEM,
+  productId
 })
 
-// const submitOrder = () => ({
-//   type: SUBMIT_ORDER
-// })
+const clearedCart = () => ({
+  type: CLEAR_CART
+})
 
 export const loadState = () => {
   try {
@@ -82,22 +74,19 @@ export function getCart(orderId) {
   }
 }
 
-export function getCartItems(orderId) {
-  return async dispatch => {
-    try {
-      const {data} = await Axios.get(`/api/order_item/${orderId}`)
-      dispatch(gotCartItems(data))
-    } catch (error) {
-      console.error(error)
+export function deleteCartItem(orderId, itemId) {
+  if (orderId === 0) {
+    return async dispacth => {
+      await deletedCartItem(itemId)
     }
   }
-}
 
-export function deleteCartItem(item) {
   return async dispatch => {
     try {
-      const deletedOrder = await Axios.delete(`/api/order_item/${item.id}`)
-      dispatch(deletedCartItem())
+      const deletedOrder = await Axios.delete(
+        `/api/order_item/${orderId}/${itemId}`
+      )
+      dispatch(deletedCartItem(itemId))
     } catch (error) {
       console.error(error)
     }
@@ -122,6 +111,13 @@ export function addCartItem(orderId, item) {
     }
   }
 }
+
+export function clearCart() {
+  return dispatch => {
+    dispatch(clearedCart())
+  }
+}
+
 //INITIAL STATE
 const cart = {
   order_items: []
@@ -131,17 +127,20 @@ const cartReducer = (state = loadState() || cart, action) => {
   switch (action.type) {
     case GOT_CART:
       return action.cart
-    // case ADDED_TO_CART:
-    //   return [...state, action.product]
-    // case REMOVED_FROM_CART:
-    //   return state.filter(item => item.id !== action.product.id)
-    // case BOUGHT_CART:
-    //   return []
+    case CLEAR_CART:
+      return {...state, order_items: []}
+    case DELETED_CART_ITEM:
+      return {
+        ...state,
+        order_items: state.order_items.filter(
+          item => item.productId !== action.productId
+        )
+      }
     case ADDED_CART_ITEM:
       let cartItems
       let productExistsInCart = state.order_items.some(
         item => item.productId === action.product.id
-      ) // boolean
+      )
       if (!productExistsInCart) {
         cartItems = state.order_items.concat([
           {
@@ -154,8 +153,6 @@ const cartReducer = (state = loadState() || cart, action) => {
         cartItems = state.order_items
       }
       return {...state, order_items: cartItems}
-    case DELETED_CART_ITEM:
-      return state
     default:
       return state
   }

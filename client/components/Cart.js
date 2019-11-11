@@ -2,13 +2,12 @@ import React from 'react'
 import Axios from 'axios'
 import {connect} from 'react-redux'
 import Cartitem from './CartItem'
-import {getCart, getCartItems, deleteCartItem} from '../store/cart'
+import {deleteCartItem} from '../store/cart'
 
 class Cart extends React.Component {
   constructor() {
     super()
     this.checkout = this.checkout.bind(this)
-    this.remove = this.remove.bind(this)
     this.total = this.total.bind(this)
     this.totalItems = this.totalItems.bind(this)
   }
@@ -32,14 +31,6 @@ class Cart extends React.Component {
     // }
   }
 
-  remove(id) {
-    // if (this.props.user) {
-    //   this.props.deleteCartItem(id)
-    // } else {
-    //   this.setState({ products: copyArray })
-    //   localStorage.removeItem(id)
-    // }
-  }
   total() {
     // let total = 0
     // for (let i = 0; i < this.state.products.length; i++) {
@@ -59,7 +50,6 @@ class Cart extends React.Component {
   }
 
   render() {
-    console.log('props in render', this.props)
     return (
       <div className="cart-component-container">
         <div className="attributes">
@@ -73,12 +63,11 @@ class Cart extends React.Component {
         </div>
         {this.props.cart.order_items.length !== 0 ? (
           this.props.cart.order_items.map(current => {
-            current = current.product
             return (
               <Cartitem
-                key={current.id}
+                key={current.product.id}
                 current={current}
-                remove={this.remove}
+                remove={this.props.deleteCartItem}
               />
             )
           })
@@ -107,9 +96,8 @@ class Cart extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    deleteCartItem: id => {
-      dispatch(deleteCartItem(id))
-    }
+    deleteCartItem: (orderId, productId) =>
+      dispatch(deleteCartItem(orderId, productId))
   }
 }
 

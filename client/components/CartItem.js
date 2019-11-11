@@ -2,16 +2,22 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 
 const CartItem = props => {
+  const product = props.current.product
+  function remove(evt) {
+    evt.preventDefault()
+    props.remove(props.current.id, product.id)
+  }
+
   return (
     <div className="single-product">
-      <Link to={`/products/${props.current.id}`}>
-        <img className="cart-product-img" src={props.current.imageUrl} />
+      <Link to={`/products/${product.id}`}>
+        <img className="cart-product-img" src={product.imageUrl} />
       </Link>
-      <Link to={`/products/${props.current.id}`}>
-        <h3>{props.current.name}</h3>
+      <Link to={`/products/${product.id}`}>
+        <h3>{product.name}</h3>
       </Link>
-      <p>{props.current.origin}</p>
-      <p>{props.current.price / 100} USD</p>
+      <p>{product.origin}</p>
+      <p>{product.price / 100} USD</p>
       <select>
         <option value={1}>1</option>
         <option value={2}>2</option>
@@ -24,7 +30,7 @@ const CartItem = props => {
         <option value={9}>9</option>
         <option value={10}>10</option>
       </select>
-      <button type="submit" onSubmit={props.remove}>
+      <button type="submit" onClick={evt => remove(evt)}>
         Remove Item
       </button>
     </div>

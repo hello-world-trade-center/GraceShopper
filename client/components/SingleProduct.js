@@ -3,7 +3,6 @@ import history from '../history'
 import {connect} from 'react-redux'
 import {getProduct} from '../store/product'
 import {addCartItem} from '../store/cart'
-import Axios from 'axios'
 
 class SingleProduct extends React.Component {
   constructor() {
@@ -18,14 +17,7 @@ class SingleProduct extends React.Component {
       const currentOrder = userOrders[userOrders.length - 1]
       this.props.addCartItem(currentOrder.id, item)
     } else {
-      try {
-        this.props.addCartItem(0, item)
-        //   const potato = await Axios.get(`/api/products/${itemId}`)
-        //   potato.data.amount = 1
-        //   localStorage.setItem(itemId, JSON.stringify(potato.data))
-      } catch (error) {
-        console.log(error)
-      }
+      this.props.addCartItem(0, item)
     }
     history.push('/cart')
   }

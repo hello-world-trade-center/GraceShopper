@@ -47,11 +47,15 @@ router.get('/:orderId', async (req, res, next) => {
 //   }
 // })
 
-router.delete('/', async (req, res, next) => {
+router.delete('/:orderId/:productId', async (req, res, next) => {
   try {
-    const order = await OrderItem.findByPk(req.body)
-    order.destroy()
-    res.json(order)
+    const order = await OrderItem.destroy({
+      where: {
+        productId: req.params.productId,
+        id: req.params.orderId
+      }
+    })
+    res.sendStatus(204)
   } catch (error) {
     next(error)
   }
