@@ -15,9 +15,9 @@ class SingleProduct extends React.Component {
     if (this.props.user.id) {
       const userOrders = this.props.user.orders
       const currentOrder = userOrders[userOrders.length - 1]
-      this.props.addCartItem(currentOrder.id, item)
+      this.props.addCartItem(currentOrder.id, item, 1)
     } else {
-      this.props.addCartItem(0, item)
+      this.props.addCartItem(0, item, 1)
     }
     history.push('/cart')
   }
