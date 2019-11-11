@@ -5,7 +5,6 @@ import Cartitem from './CartItem'
 import history from '../history'
 import {Link} from 'react-router-dom'
 import {addCartItem, deleteCartItem, clearCart} from '../store/cart'
-import {O_DIRECT} from 'constants'
 
 class Cart extends React.Component {
   constructor() {
