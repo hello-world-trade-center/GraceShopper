@@ -6,6 +6,7 @@ router.get('/:orderId', async (req, res, next) => {
     const order = await Order.findByPk(req.params.orderId, {
       include: [{model: OrderItem, include: [Product]}]
     })
+    console.log('order in ', order)
     res.json(order)
   } catch (err) {
     next(err)

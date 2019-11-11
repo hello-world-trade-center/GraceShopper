@@ -2,7 +2,10 @@ import React from 'react'
 import Axios from 'axios'
 import {connect} from 'react-redux'
 import Cartitem from './CartItem'
+import history from '../history'
+import {Link} from 'react-router-dom'
 import {addCartItem, deleteCartItem, clearCart} from '../store/cart'
+import {O_DIRECT} from 'constants'
 
 class Cart extends React.Component {
   constructor() {
@@ -13,7 +16,6 @@ class Cart extends React.Component {
   }
 
   async checkout() {
-    console.log('props', this.props)
     const order = this.props.cart
     const completedOrder = await Axios.post(
       `/api/orders/checkout/${order.id}`,
@@ -21,24 +23,8 @@ class Cart extends React.Component {
         total: this.total(true)
       }
     )
-    console.log('order here', completedOrder)
     this.props.clearCart()
-    // for (let i = 0; i < this.props.user.orders.length; i++) {
-    //   if (!this.props.user.orders[i].complete) {
-    //     this.props.user.orders[i].complete = true
-    //   }
-    // }
-    // try {
-    //   for (let i = 0; i < this.state.products.length; i++) {
-    //     const potatoId = this.state.products[i].id
-    //     const quantity = JSON.parse(localStorage.getItem(potatoId)).quantity
-    //     const returnPotato = await Axios.post(`/api/products/${potatoId}`, {
-    //       quantity
-    //     })
-    //   }
-    // } catch (error) {
-    //   console.log(error)
-    // }
+    history.push(`/checkout/${completedOrder.data.id}`)
   }
 
   total(db) {
