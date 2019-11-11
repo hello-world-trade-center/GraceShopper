@@ -7,6 +7,7 @@ import allProducts from './components/allProducts'
 import SingleProduct from './components/SingleProduct'
 import searchResults from './components/searchResults'
 import {me} from './store'
+import AboutUs from './components/AboutUs'
 
 /**
  * COMPONENT
@@ -27,6 +28,7 @@ class Routes extends Component {
         <Route exact path="/home" component={allProducts} />
         <Route exact path="/products/:productId" component={SingleProduct} />
         <Route exact path="/products" component={allProducts} />
+        <Route path="/aboutus" component={AboutUs} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/cart" component={Cart} />
