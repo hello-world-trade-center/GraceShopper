@@ -53,8 +53,11 @@ router.delete('/:userId', async (req, res, next) => {
 })
 
 // UPDATE USER
-router.put('/:userId/profile', async (req, res, next) => {
+router.put('/:userId', async (req, res, next) => {
+  // add profile?
   try {
+    console.log('REQ_BODY', req.body)
+
     const id = req.params.userId
     const userToUpdate = await User.findByPk(id)
     if (userToUpdate) {
@@ -67,13 +70,5 @@ router.put('/:userId/profile', async (req, res, next) => {
     console.error(error)
   }
 })
-
-/* Student.update(req.body, {
-    where: {
-      id: req.params.id,
-    },
-    returning: true,
-  })
-    .then(test => res.status(201).json(test[1][0])) */
 
 module.exports = router

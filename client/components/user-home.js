@@ -11,28 +11,23 @@ class UserHome extends React.Component {
     super(props)
     this.state = {
       ...this.props.user
-      // name: this.props.user.name,
-      // address: this.props.user.address,
-      // city: this.props.user.city,
-      // zipCode: this.props.user.zipCode,
-      // email: this.props.user.email,
-      // password: this.props.user.password
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleSubmit(event) {
-    console.log('EVENT', event.target)
     event.preventDefault()
-    const name = event.target.name.value
-    const address = event.target.address.value
-    const city = event.target.city.value
-    const zipCode = event.target.zipCode.value
-    const email = event.target.email.value
-    const password = event.target.password.value
+    const id = this.state.id
+    const name = this.state.name
+    const address = this.state.address
+    const city = this.state.city
+    const zipCode = this.state.zipCode
+    const email = this.state.email
+    const password = this.state.password
 
     let updatedUser = {
+      id: id,
       name: name,
       address: address,
       city: city,
@@ -40,7 +35,9 @@ class UserHome extends React.Component {
       email: email,
       password: password
     }
+    console.log('UPDATED USER', updatedUser)
     this.props.update(updatedUser)
+    // this.setState({})
   }
   async handleChange(event) {
     await this.setState({
@@ -49,15 +46,12 @@ class UserHome extends React.Component {
   }
 
   async componentDidMount() {
-    try {
-      await this.props.me()
-    } catch (error) {
-      console.error(error)
-    }
+    await this.props.me()
   }
 
   render() {
-    console.log('PROPS OF USERS', this.props.user)
+    // console.log('PROPS OF USERS', this.props.user)
+    // console.log('CURRENT STATE', this.state)
 
     const props = this.props.user
     return (
@@ -146,7 +140,6 @@ const mapDispatch = dispatch => {
     update: user => dispatch(update(user))
   }
 }
-
 export default connect(mapState, mapDispatch)(UserHome)
 
 /**
