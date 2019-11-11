@@ -24,16 +24,8 @@ const CartItem = props => {
       </Link>
       <p>{product.origin}</p>
       <p>{product.price / 100} USD</p>
-      <select onChange={evt => qtySelector(evt)}>
-        {/* <option value={props.current.amount}>{props.current.amount}</option> */}
+      <select value={props.current.amount} onChange={evt => qtySelector(evt)}>
         {amountArr.map((option, idx) => {
-          if (props.current.amount === option) {
-            return (
-              <option key={idx + 1} selected={idx + 1} value={idx + 1}>
-                {idx + 1}
-              </option>
-            )
-          }
           return (
             <option key={idx + 1} value={idx + 1}>
               {idx + 1}

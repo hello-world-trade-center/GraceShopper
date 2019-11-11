@@ -56,8 +56,6 @@ router.delete('/:userId', async (req, res, next) => {
 router.put('/:userId', async (req, res, next) => {
   // add profile?
   try {
-    console.log('REQ_BODY', req.body)
-
     const id = req.params.userId
     const userToUpdate = await User.findByPk(id)
     if (userToUpdate) {
