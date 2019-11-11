@@ -52,4 +52,23 @@ router.delete('/:userId', async (req, res, next) => {
   }
 })
 
+// UPDATE USER
+router.put('/:userId', async (req, res, next) => {
+  // add profile?
+  try {
+    console.log('REQ_BODY', req.body)
+
+    const id = req.params.userId
+    const userToUpdate = await User.findByPk(id)
+    if (userToUpdate) {
+      const updatedUser = await userToUpdate.update(req.body)
+      res.status(201).json(updatedUser)
+    } else {
+      res.status(404).send('User does not exist')
+    }
+  } catch (error) {
+    console.error(error)
+  }
+})
+
 module.exports = router
