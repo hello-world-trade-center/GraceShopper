@@ -6,7 +6,7 @@ const CartItem = props => {
   const amountArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   function remove(evt) {
     evt.preventDefault()
-    props.remove(props.current.id, product.id)
+    props.remove(props.current.id || props.current.orderId, product.id)
   }
 
   function qtySelector(evt) {
