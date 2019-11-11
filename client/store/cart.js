@@ -77,8 +77,8 @@ export function getCart(orderId) {
 
 export function deleteCartItem(orderId, itemId) {
   if (orderId === 0) {
-    return async dispacth => {
-      await deletedCartItem(itemId)
+    return async dispatch => {
+      dispatch(deletedCartItem(itemId))
     }
   }
 
