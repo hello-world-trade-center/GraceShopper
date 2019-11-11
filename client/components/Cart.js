@@ -2,7 +2,7 @@ import React from 'react'
 import Axios from 'axios'
 import {connect} from 'react-redux'
 import Cartitem from './CartItem'
-import {getCart, getCartItems} from '../store/cart'
+import {getCart, getCartItems, deleteCartItem} from '../store/cart'
 
 class Cart extends React.Component {
   constructor() {
@@ -51,9 +51,9 @@ class Cart extends React.Component {
       //   console.log(orderItems)
       //   this.setState({products: orderItems})
       // } else {
-      //   this.setState({
-      //     products: this.state.products.concat(potatoArray)
-      //   })
+      this.setState({
+        products: this.state.products.concat(potatoArray)
+      })
     }
   }
 
@@ -77,14 +77,12 @@ class Cart extends React.Component {
   }
 
   remove(id) {
-    let copyArray = this.state.products.filter(current => {
-      if (current.id !== id) {
-        return current
-      }
-    })
-
-    this.setState({products: copyArray})
-    localStorage.removeItem(id)
+    if (this.props.user) {
+      this.props.deleteCartItem(id)
+    } else {
+      this.setState({products: copyArray})
+      localStorage.removeItem(id)
+    }
   }
   total() {
     // let total = 0
@@ -119,7 +117,13 @@ class Cart extends React.Component {
         </div>
         {this.state.products.length !== 0 ? (
           this.state.products.map(current => {
-            return <Cartitem key={current.id} current={current} />
+            return (
+              <Cartitem
+                key={current.id}
+                current={current}
+                remove={this.remove}
+              />
+            )
           })
         ) : (
           <div id="empty-cart">
@@ -151,6 +155,9 @@ const mapDispatchToProps = dispatch => {
     },
     getCartItems: id => {
       dispatch(getCartItems(id))
+    },
+    deleteCartItem: id => {
+      dispatch(deleteCartItem(id))
     }
   }
 }
