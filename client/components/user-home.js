@@ -70,8 +70,51 @@ class UserHome extends React.Component {
             <p>{props.zipcode}</p>{' '}
           </div>
         ) : null}
+        <div className="update-form-container">
+          <form id="todo-form" onSubmit={props.handleSubmit}>
+            <label htmlFor="name">Update Name:</label>
+            <input
+              name="name"
+              type="text"
+              onChange={props.handleChange}
+              value={props.name}
+            />
 
-        <button type="submit">Edit Profile</button>
+            <label htmlFor="email">Update Email:</label>
+            <input
+              name="email"
+              type="text"
+              onChange={props.handleChange}
+              value={props.email}
+            />
+
+            <label htmlFor="address">Update Street Address:</label>
+            <input
+              name="address"
+              type="text"
+              onChange={props.handleChange}
+              value={props.address}
+            />
+
+            <label htmlFor="city">Update City:</label>
+            <input
+              name="city"
+              type="text"
+              onChange={props.handleChange}
+              value={props.city}
+            />
+
+            <label htmlFor="zipCode">Update Zip:</label>
+            <input
+              name="zipCode"
+              type="text"
+              onChange={props.handleChange}
+              value={props.zipCode}
+            />
+          </form>
+
+          <button type="submit">Edit Profile</button>
+        </div>
       </div>
     )
   }
@@ -83,12 +126,6 @@ class UserHome extends React.Component {
 const mapState = state => {
   return {
     user: state.user
-    // name: state.user.name,
-    // email: state.user.email,
-    // password: state.user.password,
-    // address: state.user.address,
-    // city: state.user.city,
-    // zipcode: state.user.zipCode
   }
 }
 
