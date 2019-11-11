@@ -12,7 +12,7 @@ const gotCart = cart => ({
   cart
 })
 
-const addedCartItem = (orderId, product, qty) => ({
+const addedCartItem = (orderId, product, qty = 1) => ({
   type: ADDED_CART_ITEM,
   orderId,
   product,
@@ -155,7 +155,8 @@ const cartReducer = (state = loadState() || cart, action) => {
           {
             orderId: action.orderId,
             product: action.product,
-            productId: action.product.id
+            productId: action.product.id,
+            amount: action.qty
           }
         ])
       }
