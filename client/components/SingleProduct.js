@@ -12,16 +12,17 @@ class SingleProduct extends React.Component {
   }
 
   async handleAddToCart() {
-    const itemId = this.props.product.id
+    const item = this.props.product
     if (this.props.user.id) {
       const userOrders = this.props.user.orders
       const currentOrder = userOrders[userOrders.length - 1]
-      this.props.addCartItem(itemId, currentOrder.id)
+      this.props.addCartItem(currentOrder.id, item)
     } else {
       try {
-        const potato = await Axios.get(`/api/products/${itemId}`)
-        potato.data.amount = 1
-        localStorage.setItem(itemId, JSON.stringify(potato.data))
+        this.props.addCartItem(0, item)
+        //   const potato = await Axios.get(`/api/products/${itemId}`)
+        //   potato.data.amount = 1
+        //   localStorage.setItem(itemId, JSON.stringify(potato.data))
       } catch (error) {
         console.log(error)
       }

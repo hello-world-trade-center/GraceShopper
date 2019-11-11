@@ -2,7 +2,6 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 
 const CartItem = props => {
-  console.log('cartitem console log', props)
   return (
     <div className="single-product">
       <Link to={`/products/${props.current.id}`}>

@@ -1,12 +1,21 @@
 const router = require('express').Router()
 const {Order, OrderItem, Product, User} = require('../db/models')
 
-router.post('/', async (req, res, next) => {
+router.post('/:orderId', async (req, res, next) => {
   try {
-    const item = await OrderItem.create({
-      orderId: req.body.orderId,
-      productId: req.body.productId
+    let item = await OrderItem.findOne({
+      where: {
+        orderId: req.params.orderId,
+        productId: req.body.productId
+      }
     })
+
+    if (!item) {
+      item = await OrderItem.create({
+        orderId: req.params.orderId,
+        productId: req.body.productId
+      })
+    }
     res.json(item)
   } catch (error) {
     next(error)
@@ -28,15 +37,15 @@ router.get('/:orderId', async (req, res, next) => {
   }
 })
 
-router.post('/:orderId', async (req, res, next) => {
-  try {
-    const order = await OrderItem.findByPk(req.params.orderId)
-    order.update({...order, amount: req.body.amount})
-    res.json(order)
-  } catch (error) {
-    next(error)
-  }
-})
+// router.post('/:orderId', async (req, res, next) => {
+//   try {
+//     const order = await OrderItem.findByPk(req.params.orderId)
+//     order.update({...order, amount: req.body.amount})
+//     res.json(order)
+//   } catch (error) {
+//     next(error)
+//   }
+// })
 
 router.delete('/', async (req, res, next) => {
   try {

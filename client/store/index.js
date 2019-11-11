@@ -4,7 +4,7 @@ import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import productReducer from './product'
-import cartReducer from './cart'
+import cartReducer, {saveState} from './cart'
 
 const reducer = combineReducers({
   user: user,
@@ -15,6 +15,10 @@ const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
 const store = createStore(reducer, middleware)
+
+store.subscribe(() => {
+  saveState(store.getState().cart)
+})
 
 export default store
 export * from './user'

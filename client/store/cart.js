@@ -1,21 +1,12 @@
 import Axios from 'axios'
 
 //ACTION TYPES
-// const ADDED_TO_CART = 'ADD_TO_CART'
-// const REMOVED_FROM_CART = 'REMOVED_FROM_CART'
-// const BOUGHT_CART = 'BOUGHT_CART'
 const GOT_CART = 'GOT_CART'
 const GOT_CART_ITEMS = 'GOT_CART_ITEMS'
 const ADDED_CART_ITEM = 'ADDED_CART_ITEM'
 const DELETED_CART_ITEM = 'DELETED_CART_ITEM'
 
-//INITIAL STATE
-
 //ACTION CREATORS
-// const addToCart = product => ({type: ADDED_TO_CART, product})
-// const removeFromCart = product => ({type: REMOVED_FROM_CART, product})
-// const boughtCart = () => ({type: BOUGHT_CART})
-
 const gotCart = cart => ({
   type: GOT_CART,
   cart
@@ -26,9 +17,10 @@ const gotCartItems = data => ({
   data
 })
 
-const addedCartItem = data => ({
+const addedCartItem = (orderId, product) => ({
   type: ADDED_CART_ITEM,
-  data
+  orderId,
+  product
 })
 
 // const updateCartItem = () => ({
@@ -43,6 +35,64 @@ const deletedCartItem = () => ({
 //   type: SUBMIT_ORDER
 // })
 
+export const loadState = () => {
+  try {
+    const serializedState = localStorage.getItem('cart')
+    if (serializedState === null) {
+      return undefined
+    }
+    return JSON.parse(serializedState)
+  } catch (err) {
+    return undefined
+  }
+}
+
+export const saveState = state => {
+  try {
+    const serializeState = JSON.stringify(state)
+    localStorage.setItem('cart', serializeState)
+  } catch (err) {
+    // Do nothing.
+  }
+}
+
+export function getCart(orderId) {
+  if (orderId === 0) {
+    return async dispatch => {
+      const cart = loadState()
+      dispatch(gotCart(cart))
+    }
+  }
+  return async dispatch => {
+    try {
+      const localCart = loadState()
+      const orderItems = localCart.order_items.map(item => {
+        return dispatch(addCartItem(orderId, item.product))
+      })
+      return Promise.all(orderItems).then(() => {
+        Axios.get(`/api/orders/${orderId}`)
+          .then(response => {
+            dispatch(gotCart(response.data))
+          })
+          .catch(err => console.log('Error loadCart:', err))
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
+export function getCartItems(orderId) {
+  return async dispatch => {
+    try {
+      const {data} = await Axios.get(`/api/order_item/${orderId}`)
+      dispatch(gotCartItems(data))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 export function deleteCartItem(item) {
   return async dispatch => {
     try {
@@ -54,49 +104,30 @@ export function deleteCartItem(item) {
   }
 }
 
-export function addCartItem(item, order) {
+export function addCartItem(orderId, item) {
+  if (orderId === 0) {
+    return async dispatch => {
+      dispatch(addedCartItem(orderId, item))
+    }
+  }
+
   return async dispatch => {
     try {
-      const newOrder = await Axios.post('/api/order_item/', {
-        orderId: order,
-        productId: item
+      const newOrder = await Axios.post(`/api/order_item/${orderId}`, {
+        productId: item.id
       })
-      dispatch(addedCartItem(newOrder))
+      dispatch(addedCartItem(orderId, item))
     } catch (error) {
       console.log(error)
     }
   }
 }
-
-export function getCart(orderId) {
-  return async dispatch => {
-    try {
-      const {data} = await Axios.get(`/api/orders/${orderId}`)
-
-      dispatch(gotCart)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-}
-export function getCartItems(orderId) {
-  return async dispatch => {
-    try {
-      const {data} = await Axios.get(`/api/order_item/${orderId}`)
-
-      dispatch(gotCartItems(data))
-    } catch (error) {
-      console.error(error)
-    }
-  }
+//INITIAL STATE
+const cart = {
+  order_items: []
 }
 
-const cartObject = {
-  cart: {},
-  cartItems: []
-}
-
-const cartReducer = (state = cartObject, action) => {
+const cartReducer = (state = loadState() || cart, action) => {
   switch (action.type) {
     case GOT_CART:
       return action.cart
@@ -106,29 +137,26 @@ const cartReducer = (state = cartObject, action) => {
     //   return state.filter(item => item.id !== action.product.id)
     // case BOUGHT_CART:
     //   return []
-    case GOT_CART_ITEMS:
-      const allItems = action.data.map(current => {
-        return current.product
-      })
-      const map = {}
-      const allItems2 = allItems.filter(current => {
-        if (!map[current.id]) {
-          map[current.id] = current
-          return current
-        }
-      })
-      return {...state, cartItems: allItems2}
-
     case ADDED_CART_ITEM:
-      console.log('order', action.data)
-      return state
-    // return {...state, cartItems: }
-
+      let cartItems
+      let productExistsInCart = state.order_items.some(
+        item => item.productId === action.product.id
+      ) // boolean
+      if (!productExistsInCart) {
+        cartItems = state.order_items.concat([
+          {
+            orderId: action.orderId,
+            product: action.product,
+            productId: action.product.id
+          }
+        ])
+      } else {
+        cartItems = state.order_items
+      }
+      return {...state, order_items: cartItems}
     case DELETED_CART_ITEM:
       return state
-
     default:
-      console.log('default')
       return state
   }
 }

@@ -4,7 +4,7 @@ const {Order, Product, User, OrderItem} = require('../db/models')
 router.get('/:orderId', async (req, res, next) => {
   try {
     const order = await Order.findByPk(req.params.orderId, {
-      include: [User, OrderItem]
+      include: [{model: OrderItem, include: [Product]}]
     })
     res.json(order)
   } catch (err) {
@@ -34,6 +34,7 @@ router.post('/:orderId', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
+    console.log('req body in route', req.body)
     const newOrder = await Order.create(req.body, {
       include: {
         model: OrderItem
