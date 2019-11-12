@@ -8,6 +8,7 @@ import {getCart, clearCart} from './cart'
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 const UPDATE_USER = 'UPDATE_USER'
+const GET_ORDER_DATA = 'GET_ORDER_DATA'
 
 /**
  * INITIAL STATE
@@ -20,6 +21,7 @@ const defaultUser = {}
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
 const updateUser = user => ({type: UPDATE_USER, user}) // Kait
+const getOrderData = user => ({type: GET_ORDER_DATA, user})
 
 /**
  * THUNK CREATORS
@@ -93,9 +95,18 @@ export const logout = () => async dispatch => {
 
 export const update = user => async dispatch => {
   try {
-    const {data} = await axios.put(`/api/users/${user.id}`, user)
+    const {data} = await axios.put(`/api/users/${user.id}/profile`, user)
     // console.log('data', data)
     dispatch(updateUser(data))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export const getUserCartInfo = user => async dispatch => {
+  try {
+    const {data} = await axios.get(`/api/users/${user.id}/profile`)
+    dispatch(getOrderData(data))
   } catch (error) {
     console.error(error)
   }

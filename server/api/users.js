@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User, Order} = require('../db/models')
+const {User, Order, OrderItem} = require('../db/models')
 
 router.get('/', async (req, res, next) => {
   try {
@@ -52,12 +52,29 @@ router.delete('/:userId', async (req, res, next) => {
   }
 })
 
-// UPDATE USER
-router.put('/:userId', async (req, res, next) => {
-  // add profile?
+// GET ALL ORDER HISTORY
+router.get('/:userId/profile', async (req, res, next) => {
   try {
-    console.log('REQ_BODY', req.body)
+    const id = req.params.userId
+    const specificUser = await Order.findAll({
+      where: {
+        userId: id
+      },
+      include: {model: OrderItem}
+    })
+    if (specificUser) {
+      res.json(specificUser)
+    } else {
+      res.status(404).send('User does not exist')
+    }
+  } catch (error) {
+    next(error)
+  }
+})
 
+// UPDATE USER
+router.put('/:userId/profile', async (req, res, next) => {
+  try {
     const id = req.params.userId
     const userToUpdate = await User.findByPk(id)
     if (userToUpdate) {
