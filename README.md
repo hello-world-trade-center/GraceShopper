@@ -22,14 +22,10 @@ React • Redux • Node/Express • PostgreSQL • Redux Forms
 
 # Built By
 
-Daniel Jumelles
-• github.com/dan2298
+[Daniel Jumelles](github.com/dan2298)
 
-John Tieu
-• github.com/jt5301
+[John Tieu](github.com/jt5301)
 
-Kaitlyn Martinez
-• github.com/kkmartinez95
+[Kaitlyn Martinez](github.com/kkmartinez95)
 
-Vanessa Chan
-• github.com/vchan8084
+[Vanessa Chan](github.com/vchan8084)
