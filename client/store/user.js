@@ -8,6 +8,7 @@ import {getCart, clearCart} from './cart'
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 const UPDATE_USER = 'UPDATE_USER'
+const GET_ORDER_DATA = 'GET_ORDER_DATA'
 
 /**
  * INITIAL STATE
@@ -20,6 +21,7 @@ const defaultUser = {}
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
 const updateUser = user => ({type: UPDATE_USER, user}) // Kait
+const getOrderData = data => ({type: GET_ORDER_DATA, data})
 
 /**
  * THUNK CREATORS
@@ -29,8 +31,9 @@ export const me = () => async dispatch => {
     const res = await axios.get('/auth/me')
     dispatch(getUser(res.data || defaultUser))
     if (res.data) {
-      const currentOrder = res.data.orders[res.data.orders.length - 1]
-      dispatch(getCart(currentOrder.id))
+      const orders = res.data.orders
+      const current = orders.filter(order => order.complete === false)[0]
+      dispatch(getCart(current.id))
     } else {
       dispatch(getCart(0))
     }
@@ -93,9 +96,18 @@ export const logout = () => async dispatch => {
 
 export const update = user => async dispatch => {
   try {
-    const {data} = await axios.put(`/api/users/${user.id}`, user)
+    const {data} = await axios.put(`/api/users/${user.id}/profile`, user)
     // console.log('data', data)
     dispatch(updateUser(data))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export const getUserCartInfo = user => async dispatch => {
+  try {
+    const {data} = await axios.get(`/api/users/${user.id}/profile`)
+    dispatch(getOrderData(data))
   } catch (error) {
     console.error(error)
   }
@@ -112,6 +124,8 @@ export default function(state = defaultUser, action) {
       return defaultUser
     case UPDATE_USER:
       return action.user
+    case GET_ORDER_DATA:
+      return {...state, orders: action.data}
     default:
       return state
   }
