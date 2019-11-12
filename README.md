@@ -20,7 +20,7 @@ Stripe Integration
 
 React • Redux • Node/Express • PostgreSQL • Redux Forms
 
-# Built By
+# Creators
 
 [Daniel Jumelles](github.com/dan2298)
 
