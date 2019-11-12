@@ -1,5 +1,6 @@
 import React from 'react'
 import Axios from 'axios'
+import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import Cartitem from './CartItem'
 import history from '../history'
@@ -118,18 +119,23 @@ class Cart extends React.Component {
           <button disabled={this.state.ApplyPromo}>Submit</button>
         </form>
 
-
         <div className="checkout-container">
           <h3>TOTAL ITEMS: {this.totalItems()} </h3>
-          <h3>TOTAL: {this.total()/100} USD </h3>
+          <h3>TOTAL: {this.total() / 100} USD </h3>
         </div>
 
-        <Checkout
-          name="Checkout"
-          description="Luxury Potatoes"
-          amount={this.total()/100}
-          checkout={this.checkout}
-        />
+        {this.props.user.id ? (
+          <Checkout
+            name="Checkout"
+            description="Luxury Potatoes"
+            amount={this.total() / 100}
+            checkout={this.checkout}
+          />
+        ) : (
+          <Link to="/login">
+            <h3 className="cart_login">Log in to Checkout</h3>
+          </Link>
+        )}
       </div>
     )
   }

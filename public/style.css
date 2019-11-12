@@ -436,3 +436,7 @@ nav a {
   border-style: solid;
   border-width: 1px;
 }
+
+.cart_login {
+  text-align: center;
+}
