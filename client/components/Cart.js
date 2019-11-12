@@ -21,6 +21,9 @@ class Cart extends React.Component {
         total: this.total(true)
       }
     )
+    const userInfo = await Axios.get(`/api/users/${completedOrder.data.userId}`)
+    localStorage.setItem('completedCart', JSON.stringify(completedOrder.data))
+    localStorage.setItem('userInfo', JSON.stringify(userInfo))
     this.props.clearCart()
     history.push(`/checkout/${completedOrder.data.id}`)
   }
