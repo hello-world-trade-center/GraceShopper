@@ -12,6 +12,7 @@ class SingleProduct extends React.Component {
 
   async handleAddToCart() {
     const item = this.props.product
+
     if (this.props.user.id) {
       const userOrders = this.props.user.orders
       const currentOrder = userOrders[userOrders.length - 1]
@@ -28,6 +29,8 @@ class SingleProduct extends React.Component {
 
   render() {
     const potato = this.props.product
+    console.log('TCL: SingleProduct -> render -> potato', potato)
+
     return (
       <div className="single-product-page">
         <div key={potato.id}>
