@@ -3,6 +3,7 @@ import Axios from 'axios'
 import {connect} from 'react-redux'
 import Cartitem from './CartItem'
 import history from '../history'
+import Checkout from './StripeCheckout'
 import {addCartItem, deleteCartItem, clearCart} from '../store/cart'
 
 class Cart extends React.Component {
@@ -24,11 +25,9 @@ class Cart extends React.Component {
   handleSubmit() {
     event.preventDefault()
     if (this.state.Entry === this.state.PromoCode) {
-      console.log('in if statement', this.state)
       this.setState({
         ApplyPromo: true
       })
-      console.log(this.state)
     }
   }
 
@@ -119,19 +118,16 @@ class Cart extends React.Component {
           <button disabled={this.state.ApplyPromo}>Submit</button>
         </form>
 
-        <div className="checkout-button-container">
-          <div className="checkout-button">
-            <h3>TOTAL ITEMS: {this.totalItems()} </h3>
-            <h3>TOTAL: {this.total()} USD </h3>
-            <button
-              type="submit"
-              disabled={!this.props.user.id}
-              onClick={this.checkout}
-            >
-              Checkout
-            </button>
-          </div>
+        <div className="checkout-container">
+          <h3>TOTAL ITEMS: {this.totalItems()} </h3>
+          <h3>TOTAL: {this.total()} USD </h3>
         </div>
+        <Checkout
+          name="Checkout"
+          description="Luxury Potatoes"
+          amount={this.total()}
+          checkout={this.checkout}
+        />
       </div>
     )
   }
