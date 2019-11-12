@@ -24,10 +24,10 @@ const Home = props => {
           {props.user.id ? (
             <div className="siteInfo_home">
               <p>
-                <em>Pommes de Terre</em> is a luxery boutique offering the most
-                exotic and prestiguous genus of spuds. It was founded by Mr.
+                <em>Pommes de Terre</em> is a luxury boutique offering the most
+                exotic and prestigious genus of spuds. It was founded by Mr.
                 Potato-Head and his wife in 2019. Together, their mission was to
-                bring nobel potatoes to homes worthy of their pedigre.
+                bring nobel potatoes to homes worthy of their pedigree.
               </p>
             </div>
           ) : (
