@@ -8,13 +8,13 @@ https://pommes-de-terre.herokuapp.com/
 
 # Features
 
-Two Shopping Experiences: Guest and User
-View all products
-Cart
-Checkout
-Order History
-User Profile
-Stripe Integration
+* Two Shopping Experiences: Guest and User
+* View all products
+* Cart
+* Checkout
+* Order History
+* User Profile
+* Stripe Integration
 
 # Resources
 
