@@ -6,6 +6,7 @@ import {Login, Signup, UserHome, Cart} from './components'
 import allProducts from './components/allProducts'
 import SingleProduct from './components/SingleProduct'
 import searchResults from './components/searchResults'
+import Home from './components/Home'
 import Checkout from './components/Checkout'
 import {me} from './store'
 import AboutUs from './components/AboutUs'
@@ -26,7 +27,7 @@ class Routes extends Component {
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Redirect from="/" to="/home" exact />
-        <Route exact path="/home" component={allProducts} />
+        <Route exact path="/home" component={Home} />
         <Route exact path="/products/:productId" component={SingleProduct} />
         <Route exact path="/products" component={allProducts} />
         <Route path="/aboutus" component={AboutUs} />
