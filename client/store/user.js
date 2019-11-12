@@ -99,7 +99,6 @@ export const logout = () => async dispatch => {
 export const update = user => async dispatch => {
   try {
     const {data} = await axios.put(`/api/users/${user.id}/profile`, user)
-    // console.log('data', data)
     dispatch(updateUser(data))
   } catch (error) {
     console.error(error)
@@ -109,8 +108,6 @@ export const update = user => async dispatch => {
 export const getUserCartInfo = user => async dispatch => {
   try {
     const {data} = await axios.get(`/api/users/${user.id}/profile`)
-    console.log('TCL: data', data)
-
     dispatch(getOrderData(data))
   } catch (error) {
     console.error(error)
@@ -127,10 +124,8 @@ export default function(state = defaultUser, action) {
     case REMOVE_USER:
       return defaultUser
     case UPDATE_USER:
-      return action.user
+      return {...state, ...action.user}
     case GET_ORDER_DATA:
-      // console.log('STATE Inside the REDUCER ***', state)
-      console.log('THIS IS THE ACTION', action.data)
       return {...state, orders: action.data}
     default:
       return state

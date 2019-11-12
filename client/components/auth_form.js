@@ -75,7 +75,12 @@ const AuthForm = props => {
               <label htmlFor="zipCode">
                 <small className="form-names">Zip Code</small>
               </label>
-              <input className="info-input" name="Zip" type="text" required />
+              <input
+                className="info-input"
+                name="zipCode"
+                type="text"
+                required
+              />
             </div>
           </div>
         ) : null}
@@ -140,6 +145,8 @@ const mapDispatch = dispatch => {
         const city = evt.target.City.value
         const state = evt.target.state.value
         const zipCode = evt.target.zipCode.value
+        console.log('TCL: handleSubmit -> zipCode', zipCode)
+
         dispatch(
           auth(email, password, formName, name, addy, city, state, zipCode)
         )

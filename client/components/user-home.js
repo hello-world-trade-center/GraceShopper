@@ -37,7 +37,7 @@ class UserHome extends React.Component {
       email: email,
       password: password
     }
-    this.props.update(updatedUser)
+    this.props.update(updatedUser, this.props.history)
     // this.setState({})
   }
   async handleChange(event) {
@@ -48,9 +48,8 @@ class UserHome extends React.Component {
 
   componentDidMount() {
     try {
-      this.setState({})
       this.props.getUserCartInfo(this.props.user)
-      console.log('in didmount', this.props)
+      this.setState({})
     } catch (error) {
       console.error(error)
     }
@@ -60,13 +59,7 @@ class UserHome extends React.Component {
     console.log(this.props, 'props')
     const props = this.props.user
     const orders = this.props.user.orders
-    const cartItems = this.props.cart
-    // console.log('props', this.props)
-    // console.log('render -> cartItems', cartItems)
-    const orderHistoryInfo = this.props.orders
-    // console.log('TCL: UserHome -> render -> orderHistoryInfo', orderHistoryInfo)
 
-    // console.log('PROPS', this.props.cart)
     return (
       <div className="profile">
         <div className="profile-info">
@@ -160,17 +153,8 @@ class UserHome extends React.Component {
         <div className="order-history">
           <h2>{props.name}'s Order History:</h2>
 
-          {/* 
-          {orderHistoryInfo.map(orderItems => {
-            console.log('orderItems', orderItems)
-            return (
-              <div key={orderItems.id}>
-                <p>{orderItems.order_items.product.name}</p>
-              </div>
-            )
-          })} */}
-
           {orders.map(item => {
+            console.log('item', item)
             if (item.complete !== false) {
               if (!item.order_items) {
                 item.order_items = []
@@ -178,6 +162,9 @@ class UserHome extends React.Component {
               return (
                 <div key={item.id}>
                   {item.order_items.map(info => {
+                    {
+                      /* console.log('TCL: UserHome -> render -> info', info) */
+                    }
                     return (
                       <div key={info.id}>
                         <img
@@ -186,7 +173,7 @@ class UserHome extends React.Component {
                         />
                         <h3>Item: {info.product.name}</h3>
                         <p>Price: {info.product.price / 100} USD</p>
-                        <p> Quantity Bought: {item.amount}</p>
+                        <p> Quantity Bought: {info.amount}</p>
                       </div>
                     )
                   })}
