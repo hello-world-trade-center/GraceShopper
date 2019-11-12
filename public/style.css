@@ -56,7 +56,8 @@ nav a {
 
 #title {
   margin-right: 40px;
-  font-family: cursive;
+  /* font-family: cursive; */
+  font-family: Snell Roundhand;
 }
 
 .product-img {

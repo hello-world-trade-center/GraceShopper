@@ -21,7 +21,7 @@ const defaultUser = {}
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
 const updateUser = user => ({type: UPDATE_USER, user}) // Kait
-const getOrderData = user => ({type: GET_ORDER_DATA, user})
+const getOrderData = data => ({type: GET_ORDER_DATA, data})
 
 /**
  * THUNK CREATORS
@@ -123,6 +123,8 @@ export default function(state = defaultUser, action) {
       return defaultUser
     case UPDATE_USER:
       return action.user
+    case GET_ORDER_DATA:
+      return {...state, orders: action.data}
     default:
       return state
   }
