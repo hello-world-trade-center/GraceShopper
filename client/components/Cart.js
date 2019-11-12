@@ -3,6 +3,7 @@ import Axios from 'axios'
 import {connect} from 'react-redux'
 import Cartitem from './CartItem'
 import history from '../history'
+import Checkout from './StripeCheckout'
 import {addCartItem, deleteCartItem, clearCart} from '../store/cart'
 
 class Cart extends React.Component {
@@ -24,11 +25,9 @@ class Cart extends React.Component {
   handleSubmit() {
     event.preventDefault()
     if (this.state.Entry === this.state.PromoCode) {
-      console.log('in if statement', this.state)
       this.setState({
         ApplyPromo: true
       })
-      console.log(this.state)
     }
   }
 
@@ -132,6 +131,12 @@ class Cart extends React.Component {
             </button>
           </div>
         </div>
+        <Checkout
+          name="Checkout"
+          description="Luxury Potatoes"
+          amount={this.total()}
+          checkout={this.checkout}
+        />
       </div>
     )
   }
