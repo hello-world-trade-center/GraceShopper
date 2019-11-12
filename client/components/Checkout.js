@@ -13,7 +13,7 @@ const Checkout = props => {
       <ul>Name:{userInfo.name}</ul>
       <ul>Address:{userInfo.address}</ul>
       <ul>
-        {userInfo.city}, {userInfo.zipCode}{' '}
+        {userInfo.city}, {userInfo.state} {userInfo.zipCode}
       </ul>
     </div>
   )
