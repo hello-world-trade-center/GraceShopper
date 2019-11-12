@@ -70,10 +70,10 @@ class Cart extends React.Component {
         return total / 100
       }
     } else if (this.state.ApplyPromo) {
-        return Math.floor(total / 100 * 0.85)
-      } else {
-        return total
-      }
+      return Math.floor(total / 100 * 0.85)
+    } else {
+      return total
+    }
   }
   totalItems() {
     let total = 0

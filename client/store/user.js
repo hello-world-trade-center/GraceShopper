@@ -49,6 +49,7 @@ export const auth = (
   name,
   address,
   city,
+  state,
   zip
 ) => async dispatch => {
   let res
@@ -59,6 +60,7 @@ export const auth = (
       name,
       address,
       city,
+      state,
       zip
     })
     history.push('/home')

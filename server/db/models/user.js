@@ -10,10 +10,10 @@ const User = db.define('user', {
   address: {
     type: Sequelize.STRING
   },
-  state: {
+  city: {
     type: Sequelize.STRING
   },
-  city: {
+  state: {
     type: Sequelize.STRING
   },
   zipCode: {
