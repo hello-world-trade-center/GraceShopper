@@ -118,23 +118,15 @@ class Cart extends React.Component {
           <button disabled={this.state.ApplyPromo}>Submit</button>
         </form>
 
-        <div className="checkout-button-container">
-          <div className="checkout-button">
-            <h3>TOTAL ITEMS: {this.totalItems()} </h3>
-            <h3>TOTAL: {this.total() / 100} USD </h3>
-            <button
-              type="submit"
-              disabled={!this.props.user.id}
-              onClick={this.checkout}
-            >
-              Checkout
-            </button>
-          </div>
+        <div className="checkout-container">
+          <h3>TOTAL ITEMS: {this.totalItems()} </h3>
+          <h3>TOTAL: {this.total() / 100} USD </h3>
         </div>
+
         <Checkout
           name="Checkout"
           description="Luxury Potatoes"
-          amount={this.total()}
+          amount={this.total() / 100}
           checkout={this.checkout}
         />
       </div>
