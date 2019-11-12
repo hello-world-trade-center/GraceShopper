@@ -8,28 +8,24 @@ https://pommes-de-terre.herokuapp.com/
 
 # Features
 
-Two Shopping Experiences: Guest and User
-View all products
-Cart
-Checkout
-Order History
-User Profile
-Stripe Integration
+* Two Shopping Experiences: Guest and User
+* View all products
+* Cart
+* Checkout
+* Order History
+* User Profile
+* Stripe Integration
 
 # Resources
 
 React • Redux • Node/Express • PostgreSQL • Redux Forms
 
-# Built By
+# Creators
 
-Daniel Jumelles
-• github.com/dan2298
+[Daniel Jumelles](github.com/dan2298)
 
-John Tieu
-• github.com/jt5301
+[John Tieu](github.com/jt5301)
 
-Kaitlyn Martinez
-• github.com/kkmartinez95
+[Kaitlyn Martinez](github.com/kkmartinez95)
 
-Vanessa Chan
-• github.com/vchan8084
+[Vanessa Chan](github.com/vchan8084)
