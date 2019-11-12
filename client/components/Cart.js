@@ -3,7 +3,6 @@ import Axios from 'axios'
 import {connect} from 'react-redux'
 import Cartitem from './CartItem'
 import history from '../history'
-import {Link} from 'react-router-dom'
 import {addCartItem, deleteCartItem, clearCart} from '../store/cart'
 
 class Cart extends React.Component {

@@ -22,6 +22,7 @@ class UserHome extends React.Component {
     const name = this.state.name
     const address = this.state.address
     const city = this.state.city
+    const state = this.state.state
     const zipCode = this.state.zipCode
     const email = this.state.email
     const password = this.state.password
@@ -31,11 +32,13 @@ class UserHome extends React.Component {
       name: name,
       address: address,
       city: city,
+      state: state,
       zipCode: zipCode,
       email: email,
       password: password
     }
     this.props.update(updatedUser)
+    // this.setState({})
   }
   async handleChange(event) {
     await this.setState({
@@ -53,9 +56,16 @@ class UserHome extends React.Component {
   }
 
   render() {
+    console.log(this.props, 'props')
     const props = this.props.user
+    const orders = this.props.user.orders
     const cartItems = this.props.cart
-    console.log('PROPS', this.props.cart)
+    // console.log('props', this.props)
+    // console.log('render -> cartItems', cartItems)
+    const orderHistoryInfo = this.props.orders
+    // console.log('TCL: UserHome -> render -> orderHistoryInfo', orderHistoryInfo)
+
+    // console.log('PROPS', this.props.cart)
     return (
       <div className="profile">
         <div className="profile-info">
@@ -68,6 +78,8 @@ class UserHome extends React.Component {
           <p>{props.address}</p>
           <h3>City</h3>
           <p>{props.city}</p>
+          <h3>State</h3>
+          <p>{props.state}</p>
           <h3>Zip</h3>
           <p>{props.zipCode}</p>
         </div>
@@ -114,6 +126,16 @@ class UserHome extends React.Component {
             />
 
             <h3>
+              <label htmlFor="city">Update State:</label>
+            </h3>
+            <input
+              name="state"
+              type="text"
+              placeholder={props.state}
+              onChange={this.handleChange}
+            />
+
+            <h3>
               <label htmlFor="zipCode">Update Zip:</label>
             </h3>
             <input
@@ -136,18 +158,40 @@ class UserHome extends React.Component {
 
         <div className="order-history">
           <h2>{props.name}'s Order History:</h2>
-          {cartItems.map(item => {
+
+          {/* 
+          {orderHistoryInfo.map(orderItems => {
+            console.log('orderItems', orderItems)
             return (
-              <div key={item.id}>
-                <img
-                  className="order-history-img"
-                  src={item.product.imageUrl}
-                />
-                <h3>Item: {item.product.name}</h3>
-                <p>Price: {item.product.price / 100} USD</p>
-                <p> Quantity Bought: {item.amount}</p>
+              <div key={orderItems.id}>
+                <p>{orderItems.order_items.product.name}</p>
               </div>
             )
+          })} */}
+
+          {orders.map(item => {
+            if (item.complete !== false) {
+              if (!item.order_items) {
+                item.order_items = []
+              }
+              return (
+                <div key={item.id}>
+                  {item.order_items.map(info => {
+                    return (
+                      <div key={info.id}>
+                        <img
+                          className="order-history-img"
+                          src={info.product.imageUrl}
+                        />
+                        <h3>Item: {info.product.name}</h3>
+                        <p>Price: {info.product.price / 100} USD</p>
+                        <p> Quantity Bought: {item.amount}</p>
+                      </div>
+                    )
+                  })}
+                </div>
+              )
+            }
           })}
         </div>
       </div>
@@ -159,11 +203,11 @@ class UserHome extends React.Component {
  * CONTAINER
  */
 const mapState = state => {
-  console.log('STATE', state)
+  // console.log('STATE', state)
   return {
     user: state.user,
-    cart: state.cart.order_items
-    // cart: state.cart
+    cart: state.cart.order_items,
+    orders: state.user.orders
   }
 }
 

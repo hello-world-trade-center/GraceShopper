@@ -16,14 +16,19 @@ const AuthForm = props => {
           <label htmlFor="email">
             <small className="form-names">Email</small>
           </label>
-          <input className="info-input" name="email" type="text" />
+          <input className="info-input" name="email" type="text" required />
         </div>
 
         <div>
           <label htmlFor="password">
             <small className="form-names">Password</small>
           </label>
-          <input className="info-input" name="password" type="password" />
+          <input
+            className="info-input"
+            name="password"
+            type="password"
+            required
+          />
         </div>
 
         {displayName != 'Login' ? (
@@ -32,28 +37,38 @@ const AuthForm = props => {
               <label htmlFor="name">
                 <small className="form-names">Name</small>
               </label>
-              <input className="info-input" name="full_name" type="text" />
+              <input
+                className="info-input"
+                name="full_name"
+                type="text"
+                required
+              />
             </div>
 
             <div>
               <label htmlFor="Address">
                 <small className="form-names">Address</small>
               </label>
-              <input className="info-input" name="Address" type="text" />
+              <input
+                className="info-input"
+                name="Address"
+                type="text"
+                required
+              />
             </div>
 
             <div>
               <label htmlFor="City">
                 <small className="form-names">City</small>
               </label>
-              <input className="info-input" name="City" type="text" />
+              <input className="info-input" name="City" type="text" required />
             </div>
 
             <div>
               <label htmlFor="Zip">
                 <small className="form-names">Zip Code</small>
               </label>
-              <input className="info-input" name="Zip" type="text" />
+              <input className="info-input" name="Zip" type="text" required />
             </div>
           </div>
         ) : null}

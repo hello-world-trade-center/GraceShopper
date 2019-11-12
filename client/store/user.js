@@ -31,8 +31,9 @@ export const me = () => async dispatch => {
     const res = await axios.get('/auth/me')
     dispatch(getUser(res.data || defaultUser))
     if (res.data) {
-      const currentOrder = res.data.orders[res.data.orders.length - 1]
-      dispatch(getCart(currentOrder.id))
+      const orders = res.data.orders
+      const current = orders.filter(order => order.complete === false)[0]
+      dispatch(getCart(current.id))
     } else {
       dispatch(getCart(0))
     }
@@ -106,6 +107,8 @@ export const update = user => async dispatch => {
 export const getUserCartInfo = user => async dispatch => {
   try {
     const {data} = await axios.get(`/api/users/${user.id}/profile`)
+    console.log('TCL: data', data)
+
     dispatch(getOrderData(data))
   } catch (error) {
     console.error(error)
@@ -124,6 +127,8 @@ export default function(state = defaultUser, action) {
     case UPDATE_USER:
       return action.user
     case GET_ORDER_DATA:
+      // console.log('STATE Inside the REDUCER ***', state)
+      console.log('THIS IS THE ACTION', action.data)
       return {...state, orders: action.data}
     default:
       return state
