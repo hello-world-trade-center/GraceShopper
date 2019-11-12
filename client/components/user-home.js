@@ -37,7 +37,8 @@ class UserHome extends React.Component {
       email: email,
       password: password
     }
-    this.props.update(updatedUser)
+    this.props.update(updatedUser, this.props.history)
+    // this.setState({})
   }
   async handleChange(event) {
     await this.setState({
@@ -47,18 +48,18 @@ class UserHome extends React.Component {
 
   componentDidMount() {
     try {
-      this.setState({})
       this.props.getUserCartInfo(this.props.user)
-      console.log('in didmount', this.props)
+      this.setState({})
     } catch (error) {
       console.error(error)
     }
   }
 
   render() {
+    console.log(this.props, 'props')
     const props = this.props.user
-    const cartItems = this.props.cart
-    console.log('PROPS', this.props.cart)
+    const orders = this.props.user.orders
+
     return (
       <div className="profile">
         <div className="profile-info">
@@ -151,18 +152,34 @@ class UserHome extends React.Component {
 
         <div className="order-history">
           <h2>{props.name}'s Order History:</h2>
-          {cartItems.map(item => {
-            return (
-              <div key={item.id}>
-                <img
-                  className="order-history-img"
-                  src={item.product.imageUrl}
-                />
-                <h3>Item: {item.product.name}</h3>
-                <p>Price: {item.product.price / 100} USD</p>
-                <p> Quantity Bought: {item.amount}</p>
-              </div>
-            )
+
+          {orders.map(item => {
+            console.log('item', item)
+            if (item.complete !== false) {
+              if (!item.order_items) {
+                item.order_items = []
+              }
+              return (
+                <div key={item.id}>
+                  {item.order_items.map(info => {
+                    {
+                      /* console.log('TCL: UserHome -> render -> info', info) */
+                    }
+                    return (
+                      <div key={info.id}>
+                        <img
+                          className="order-history-img"
+                          src={info.product.imageUrl}
+                        />
+                        <h3>Item: {info.product.name}</h3>
+                        <p>Price: {info.product.price / 100} USD</p>
+                        <p> Quantity Bought: {info.amount}</p>
+                      </div>
+                    )
+                  })}
+                </div>
+              )
+            }
           })}
         </div>
       </div>
@@ -174,11 +191,11 @@ class UserHome extends React.Component {
  * CONTAINER
  */
 const mapState = state => {
-  console.log('STATE', state)
+  // console.log('STATE', state)
   return {
     user: state.user,
-    cart: state.cart.order_items
-    // cart: state.cart
+    cart: state.cart.order_items,
+    orders: state.user.orders
   }
 }
 

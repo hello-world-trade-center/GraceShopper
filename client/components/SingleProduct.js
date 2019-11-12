@@ -14,9 +14,7 @@ class SingleProduct extends React.Component {
     const item = this.props.product
 
     if (this.props.user.id) {
-      const userOrders = this.props.user.orders
-      const currentOrder = userOrders[userOrders.length - 1]
-      this.props.addCartItem(currentOrder.id, item, 1)
+      this.props.addCartItem(this.props.cart.id, item, 1)
     } else {
       this.props.addCartItem(0, item, 1)
     }
@@ -58,7 +56,8 @@ class SingleProduct extends React.Component {
 const mapStateToProps = state => {
   return {
     product: state.products.singleProduct,
-    user: state.user
+    user: state.user,
+    cart: state.cart
   }
 }
 
