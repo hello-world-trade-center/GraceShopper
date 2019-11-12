@@ -137,6 +137,13 @@ nav a {
   width: 100%;
 }
 
+.thank-you-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
 .attributes {
   display: flex;
   flex-wrap: nowrap;
