@@ -128,7 +128,6 @@ class UserHome extends React.Component {
               placeholder={props.state}
               onChange={this.handleChange}
             />
-
             <h3>
               <label htmlFor="zipCode">Update Zip:</label>
             </h3>

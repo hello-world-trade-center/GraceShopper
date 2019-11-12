@@ -29,7 +29,9 @@ router.post('/login', async (req, res, next) => {
 
 router.post('/signup', async (req, res, next) => {
   try {
+    console.log('auth post', req.body)
     let user = await User.create(req.body)
+    console.log('newuser', user.dataValues)
     const order = await Order.create({
       userId: user.id
     })
