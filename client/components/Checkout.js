@@ -3,7 +3,6 @@ import React from 'react'
 const Checkout = props => {
   const orderInformation = JSON.parse(localStorage.getItem('completedCart'))
   const userInfo = JSON.parse(localStorage.getItem('userInfo')).data
-  console.log(orderInformation)
   return (
     <div className="thank-you-page">
       <h1>THANK YOU FOR YOUR ORDER!</h1>

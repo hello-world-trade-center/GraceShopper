@@ -160,7 +160,7 @@ nav a {
   border-radius: 48px;
 }
 
-.checkout-button {
+.checkout-container {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -168,9 +168,9 @@ nav a {
   /* align-items: space-around; */
 }
 
-/* .checkout-button-container > h3 {
+.checkout-container h3 {
   padding: 10px;
-} */
+}
 
 #search-button {
   display: inline-block;
