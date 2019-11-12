@@ -56,7 +56,6 @@ nav a {
 
 #title {
   margin-right: 40px;
-  /* font-family: cursive; */
   font-family: Snell Roundhand;
 }
 
@@ -423,10 +422,12 @@ nav a {
 }
 
 .home_page h2 {
+  background: rgb(214, 187, 129, 0.8);
+  font-family: Snell Roundhand;
+
   margin-top: 3%;
   text-align: center;
   font-size: 48px;
-  font-weight: bolder;
 }
 
 .order-history-img {
