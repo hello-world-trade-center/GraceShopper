@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {update} from '../store/user'
+import {update, getUserCartInfo} from '../store/user'
 
 /**
  * COMPONENT
@@ -35,7 +35,6 @@ class UserHome extends React.Component {
       email: email,
       password: password
     }
-    console.log('UPDATED USER', updatedUser)
     this.props.update(updatedUser)
   }
   async handleChange(event) {
@@ -45,11 +44,18 @@ class UserHome extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({})
+    try {
+      this.setState({})
+      this.props.getUserCartInfo(this.props.user)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   render() {
     const props = this.props.user
+    const cartItems = this.props.cart
+    console.log('PROPS', this.props.cart)
     return (
       <div className="profile">
         <div className="profile-info">
@@ -127,6 +133,23 @@ class UserHome extends React.Component {
             </button>
           </div>
         </div>
+
+        <div className="order-history">
+          <h2>{props.name}'s Order History:</h2>
+          {cartItems.map(item => {
+            return (
+              <div key={item.id}>
+                <img
+                  className="order-history-img"
+                  src={item.product.imageUrl}
+                />
+                <h3>Item: {item.product.name}</h3>
+                <p>Price: {item.product.price / 100} USD</p>
+                <p> Quantity Bought: {item.amount}</p>
+              </div>
+            )
+          })}
+        </div>
       </div>
     )
   }
@@ -136,14 +159,18 @@ class UserHome extends React.Component {
  * CONTAINER
  */
 const mapState = state => {
+  console.log('STATE', state)
   return {
-    user: state.user
+    user: state.user,
+    cart: state.cart.order_items
+    // cart: state.cart
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    update: user => dispatch(update(user))
+    update: user => dispatch(update(user)),
+    getUserCartInfo: user => dispatch(getUserCartInfo(user))
   }
 }
 export default connect(mapState, mapDispatch)(UserHome)

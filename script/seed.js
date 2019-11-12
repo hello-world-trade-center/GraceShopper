@@ -81,12 +81,14 @@ const users = [
   {
     name: 'Dwayne The Rock Johnson',
     email: 'therock@wwe.com',
-    password: '1234'
+    password: '1234',
+    state: 'Hawaii'
   },
   {
     name: 'Kevin Hart',
     email: 'dwaynesbestie@funnyman.com',
-    password: '5678'
+    password: '5678',
+    state: 'Pennsylvania'
   },
   {
     name: 'Ada Lovelace',
