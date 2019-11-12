@@ -7,7 +7,7 @@ const Checkout = props => {
     <div className="thank-you-page">
       <h1>THANK YOU FOR YOUR ORDER!</h1>
       <h2>Order Number: {orderInformation.id}</h2>
-      <h2>Total: ${orderInformation.total} USD</h2>
+      <h2>Total: ${orderInformation.total / 100} USD</h2>
       <h3>Your potatoes will be sent to the address we have on file:</h3>
       <ul>Name:{userInfo.name}</ul>
       <ul>Address:{userInfo.address}</ul>
