@@ -40,6 +40,7 @@ class Cart extends React.Component {
 
   async checkout() {
     const order = this.props.cart
+
     const completedOrder = await Axios.post(
       `/api/orders/checkout/${order.id}`,
       {
@@ -64,13 +65,15 @@ class Cart extends React.Component {
     }
     if (!db) {
       if (this.state.ApplyPromo) {
-        return total / 100 * 0.85
+        return Math.floor(total / 100 * 0.85)
       } else {
         return total / 100
       }
-    } else {
-      return total
-    }
+    } else if (this.state.ApplyPromo) {
+        return Math.floor(total / 100 * 0.85)
+      } else {
+        return total
+      }
   }
   totalItems() {
     let total = 0
