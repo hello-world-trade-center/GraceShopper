@@ -49,7 +49,8 @@ export const auth = (
   name,
   address,
   city,
-  zip
+  state,
+  zipCode
 ) => async dispatch => {
   let res
   try {
@@ -59,7 +60,8 @@ export const auth = (
       name,
       address,
       city,
-      zip
+      state,
+      zipCode
     })
     history.push('/home')
   } catch (authError) {

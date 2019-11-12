@@ -8,19 +8,48 @@ import {addCartItem, deleteCartItem, clearCart} from '../store/cart'
 class Cart extends React.Component {
   constructor() {
     super()
+    this.state = {
+      PromoCode: '1234',
+      Entry: ' ',
+      ApplyPromo: false
+    }
+
     this.checkout = this.checkout.bind(this)
     this.total = this.total.bind(this)
     this.totalItems = this.totalItems.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleSubmit() {
+    event.preventDefault()
+    if (this.state.Entry === this.state.PromoCode) {
+      console.log('in if statement', this.state)
+      this.setState({
+        ApplyPromo: true
+      })
+      console.log(this.state)
+    }
+  }
+
+  handleChange(event) {
+    this.setState({
+      Entry: event.target.value
+    })
   }
 
   async checkout() {
     const order = this.props.cart
+
     const completedOrder = await Axios.post(
       `/api/orders/checkout/${order.id}`,
       {
         total: this.total(true)
       }
     )
+    const userInfo = await Axios.get(`/api/users/${completedOrder.data.userId}`)
+    localStorage.setItem('completedCart', JSON.stringify(completedOrder.data))
+    localStorage.setItem('userInfo', JSON.stringify(userInfo))
     this.props.clearCart()
     history.push(`/checkout/${completedOrder.data.id}`)
   }
@@ -35,9 +64,16 @@ class Cart extends React.Component {
       total += productPrice
     }
     if (!db) {
-      return total / 100
+      if (this.state.ApplyPromo) {
+        return Math.floor(total / 100 * 0.85)
+      } else {
+        return total / 100
+      }
+    } else if (this.state.ApplyPromo) {
+      return Math.floor(total / 100 * 0.85)
+    } else {
+      return total
     }
-    return total
   }
   totalItems() {
     let total = 0
@@ -76,6 +112,13 @@ class Cart extends React.Component {
             <p>Cart is Empty</p>
           </div>
         )}
+
+        <form onSubmit={this.handleSubmit}>
+          <label htmlFor="Promo"> PromoCode</label>
+          <input onChange={this.handleChange} name="Promo" type="text" />
+          <button disabled={this.state.ApplyPromo}>Submit</button>
+        </form>
+
         <div className="checkout-button-container">
           <div className="checkout-button">
             <h3>TOTAL ITEMS: {this.totalItems()} </h3>

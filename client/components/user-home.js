@@ -31,8 +31,8 @@ class UserHome extends React.Component {
       id: id,
       name: name,
       address: address,
-      city: city,
       state: state,
+      city: city,
       zipCode: zipCode,
       email: email,
       password: password
@@ -50,6 +50,7 @@ class UserHome extends React.Component {
     try {
       this.setState({})
       this.props.getUserCartInfo(this.props.user)
+      console.log('in didmount', this.props)
     } catch (error) {
       console.error(error)
     }
@@ -105,6 +106,7 @@ class UserHome extends React.Component {
               placeholder={props.email}
               onChange={this.handleChange}
             />
+
             <h3>
               <label htmlFor="address">Update Street Address:</label>
             </h3>
@@ -126,7 +128,7 @@ class UserHome extends React.Component {
             />
 
             <h3>
-              <label htmlFor="city">Update State:</label>
+              <label htmlFor="state">Update State :</label>
             </h3>
             <input
               name="state"
@@ -134,7 +136,6 @@ class UserHome extends React.Component {
               placeholder={props.state}
               onChange={this.handleChange}
             />
-
             <h3>
               <label htmlFor="zipCode">Update Zip:</label>
             </h3>
