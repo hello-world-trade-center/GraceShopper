@@ -65,12 +65,12 @@ class Cart extends React.Component {
     }
     if (!db) {
       if (this.state.ApplyPromo) {
-        return Math.floor(total / 100 * 0.85)
+        return Math.floor(total * 0.85)
       } else {
-        return total / 100
+        return total
       }
     } else if (this.state.ApplyPromo) {
-      return Math.floor(total / 100 * 0.85)
+      return Math.floor(total * 0.85)
     } else {
       return total
     }
@@ -122,7 +122,7 @@ class Cart extends React.Component {
         <div className="checkout-button-container">
           <div className="checkout-button">
             <h3>TOTAL ITEMS: {this.totalItems()} </h3>
-            <h3>TOTAL: {this.total()} USD </h3>
+            <h3>TOTAL: {this.total() / 100} USD </h3>
             <button
               type="submit"
               disabled={!this.props.user.id}
