@@ -56,7 +56,8 @@ nav a {
 
 #title {
   margin-right: 40px;
-  font-family: cursive;
+  /* font-family: cursive; */
+  font-family: Snell Roundhand;
 }
 
 .product-img {
@@ -134,6 +135,13 @@ nav a {
   flex-direction: row;
   height: 100%;
   width: 100%;
+}
+
+.thank-you-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .attributes {
@@ -421,4 +429,13 @@ nav a {
   text-align: center;
   font-size: 48px;
   font-weight: bolder;
+}
+
+.order-history-img {
+  height: 100px;
+  width: 100px;
+  border-color: rgba(114, 107, 107, 0.533);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 20px;
 }
