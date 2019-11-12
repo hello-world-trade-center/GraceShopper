@@ -27,7 +27,6 @@ class SingleProduct extends React.Component {
 
   render() {
     const potato = this.props.product
-    console.log('TCL: SingleProduct -> render -> potato', potato)
 
     return (
       <div className="single-product-page">
