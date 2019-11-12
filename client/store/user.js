@@ -31,8 +31,9 @@ export const me = () => async dispatch => {
     const res = await axios.get('/auth/me')
     dispatch(getUser(res.data || defaultUser))
     if (res.data) {
-      const currentOrder = res.data.orders[res.data.orders.length - 1]
-      dispatch(getCart(currentOrder.id))
+      const orders = res.data.orders
+      const current = orders.filter(order => order.complete === false)[0]
+      dispatch(getCart(current.id))
     } else {
       dispatch(getCart(0))
     }
