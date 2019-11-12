@@ -314,7 +314,8 @@ nav a {
 }
 
 .home_page {
-  height: 800px;
+  height: 100%;
+  width: 100%;
 }
 
 .center_container {
@@ -329,21 +330,18 @@ nav a {
   border-color: rgba(114, 107, 107, 0.433);
   border-top-right-radius: 28px;
   border-bottom-right-radius: 28px;
-  width: 75%;
-  height: 50%;
+  width: 70%;
+  height: 60%;
 }
 
 .img_home {
   width: 40%;
-  height: 100%;
 }
 
 .img_home img {
   width: 100%;
   height: 100%;
-  border-style: solid;
-  border-width: 1px;
-  border-color: rgba(114, 107, 107, 0.433);
+  object-fit: cover;
 }
 
 .content_home h4 {
@@ -437,5 +435,4 @@ nav a {
   border-color: rgba(114, 107, 107, 0.533);
   border-style: solid;
   border-width: 1px;
-  border-radius: 20px;
 }
