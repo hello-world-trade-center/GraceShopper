@@ -1,5 +1,5 @@
 import Axios from 'axios'
-
+import {me} from './user'
 //ACTION TYPES
 const GOT_CART = 'GOT_CART'
 const ADDED_CART_ITEM = 'ADDED_CART_ITEM'
@@ -117,6 +117,7 @@ export function addCartItem(orderId, item, qty) {
 export function clearCart() {
   return dispatch => {
     dispatch(clearedCart())
+    dispatch(me())
   }
 }
 
