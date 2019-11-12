@@ -6,11 +6,14 @@ import {Login, Signup, UserHome, Cart} from './components'
 import allProducts from './components/allProducts'
 import SingleProduct from './components/SingleProduct'
 import searchResults from './components/searchResults'
+import Checkout from './components/Checkout'
 import {me} from './store'
+import AboutUs from './components/AboutUs'
 
 /**
  * COMPONENT
  */
+
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
@@ -26,14 +29,16 @@ class Routes extends Component {
         <Route exact path="/home" component={allProducts} />
         <Route exact path="/products/:productId" component={SingleProduct} />
         <Route exact path="/products" component={allProducts} />
+        <Route path="/aboutus" component={AboutUs} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/cart" component={Cart} />
         <Route path="/search/:input" component={searchResults} />
+        <Route path="/checkout/:orderId" component={Checkout} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={UserHome} />
+            <Route path="/users/:userId/profile" component={UserHome} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

@@ -10,7 +10,7 @@ const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props
 
   return (
-    <div>
+    <div className="forms">
       <form onSubmit={handleSubmit} name={name}>
         <div>
           <label htmlFor="email">
@@ -59,11 +59,21 @@ const AuthForm = props => {
         ) : null}
 
         <div>
-          <button type="submit">{displayName}</button>
+          <button type="submit">
+            <h2>{displayName}</h2>
+          </button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
-      <a href="/auth/google">{displayName} with Google</a>
+      <h2>
+        <a href="/auth/google">
+          Click here to {displayName} with{' '}
+          <img
+            id="google-logo"
+            src="https://cdn.vox-cdn.com/thumbor/Pkmq1nm3skO0-j693JTMd7RL0Zk=/0x0:2012x1341/1200x800/filters:focal(0x0:2012x1341)/cdn.vox-cdn.com/uploads/chorus_image/image/47070706/google2.0.0.jpg"
+          />
+        </a>
+      </h2>
     </div>
   )
 }
