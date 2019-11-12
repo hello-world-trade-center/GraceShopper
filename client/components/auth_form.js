@@ -50,6 +50,13 @@ const AuthForm = props => {
             </div>
 
             <div>
+              <label htmlFor="state">
+                <small className="form-names">State</small>
+              </label>
+              <input className="info-input" name="state" type="text" />
+            </div>
+
+            <div>
               <label htmlFor="Zip">
                 <small className="form-names">Zip Code</small>
               </label>
@@ -116,8 +123,9 @@ const mapDispatch = dispatch => {
         const name = evt.target.full_name.value
         const addy = evt.target.Address.value
         const city = evt.target.City.value
+        const state = evt.target.state.value
         const zip = evt.target.Zip.value
-        dispatch(auth(email, password, formName, name, addy, city, zip))
+        dispatch(auth(email, password, formName, name, addy, city, state, zip))
       }
     }
   }
