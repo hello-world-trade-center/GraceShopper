@@ -5,12 +5,12 @@ const Checkout = props => {
   const userInfo = JSON.parse(localStorage.getItem('userInfo')).data
   return (
     <div className="thank-you-page">
-      <h1>THANK YOU FOR YOUR ORDER!</h1>
+      <h1>Thank You For Your Order!</h1>
       <h2>Order Number: {orderInformation.id}</h2>
       <h2>Total: ${orderInformation.total / 100} USD</h2>
       <h3>Your potatoes will be sent to the address we have on file:</h3>
-      <ul>Name:{userInfo.name}</ul>
-      <ul>Address:{userInfo.address}</ul>
+      <ul>Name: {userInfo.name}</ul>
+      <ul>Address: {userInfo.address}</ul>
       <ul>
         {userInfo.city}, {userInfo.state} {userInfo.zipCode}
       </ul>
