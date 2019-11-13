@@ -498,3 +498,8 @@ nav a {
 .cart_login {
   text-align: center;
 }
+
+/* Check if this works in checkout component!! */
+.thank-you-page h1 {
+  font-family: Snell Roundhand;
+}
