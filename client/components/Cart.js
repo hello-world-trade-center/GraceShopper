@@ -11,7 +11,7 @@ class Cart extends React.Component {
   constructor() {
     super()
     this.state = {
-      PromoCode: '1234',
+      PromoCode: 'mrpotato',
       Entry: ' ',
       ApplyPromo: false
     }
