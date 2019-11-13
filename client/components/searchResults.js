@@ -16,9 +16,11 @@ const searchResults = props => {
           {products.map(product => (
             <div key={product.id}>
               <div className="search-items">
-                <Link to={`/products/${product.id}`}>
-                  <img className="sResult-pic" src={product.imageUrl} />
-                </Link>
+                <div>
+                  <Link to={`/products/${product.id}`}>
+                    <img className="sResult-pic" src={product.imageUrl} />
+                  </Link>
+                </div>
                 <div>
                   <Link to={`/products/${product.id}`}>
                     <h2>{product.name}</h2>
